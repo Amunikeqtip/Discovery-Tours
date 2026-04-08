@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { FaArrowRightLong } from "react-icons/fa6";
 import { usePathname } from "next/navigation";
 import { BrandLogo } from "@/components/common/brand-logo";
 import { siteNavigation } from "@/lib/content";
@@ -33,6 +34,7 @@ export function SiteHeader() {
         </nav>
         <Link href="/contact" className={`buttonPrimary ${styles.cta}`}>
           Start An Inquiry
+          <FaArrowRightLong aria-hidden="true" />
         </Link>
       </div>
     </header>

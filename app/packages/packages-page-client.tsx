@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ContactForm } from "@/components/contact/contact-form";
+import { IconOrb } from "@/components/common/icon-orb";
 import { SectionHeading } from "@/components/common/section-heading";
 import {
   contactInterestLabels,
@@ -11,12 +12,21 @@ import {
   packageItems,
 } from "@/lib/content";
 import type { PackageItem } from "@/lib/types";
+import {
+  FaCarSide,
+  FaCircleCheck,
+  FaCompass,
+  FaEye,
+  FaHotel,
+  FaPaperPlane,
+  FaXmark,
+} from "react-icons/fa6";
 import styles from "./page.module.scss";
 
 const categoryIcons = {
-  transfers: "pi pi-car",
-  accommodation: "pi pi-home",
-  activities: "pi pi-compass",
+  transfers: { icon: FaCarSide, tone: "sky" as const },
+  accommodation: { icon: FaHotel, tone: "gold" as const },
+  activities: { icon: FaCompass, tone: "violet" as const },
 } as const;
 
 function buildInitialMessage(selectedPackage: PackageItem) {
@@ -122,7 +132,12 @@ export function PackagesPageClient() {
                       </div>
                       <div className={styles.cardHeader}>
                         <span>
-                          <i className={categoryIcons[item.category]} aria-hidden="true" />
+                          <IconOrb
+                            icon={categoryIcons[item.category].icon}
+                            tone={categoryIcons[item.category].tone}
+                            className={styles.categoryIcon}
+                            size={14}
+                          />
                           {item.categoryLabel}
                         </span>
                         <strong>{item.duration}</strong>
@@ -132,7 +147,7 @@ export function PackagesPageClient() {
                       <ul>
                         {item.highlights.map((highlight) => (
                           <li key={highlight}>
-                            <i className="pi pi-check-circle" aria-hidden="true" />
+                            <IconOrb icon={FaCircleCheck} tone="mint" className={styles.listIcon} size={12} />
                             <span>{highlight}</span>
                           </li>
                         ))}
@@ -143,14 +158,14 @@ export function PackagesPageClient() {
                           className={`buttonSecondary ${styles.inquiryButton}`}
                           onClick={() => setSelectedPackage(item)}
                         >
-                          <i className="pi pi-send" aria-hidden="true" />
+                          <FaPaperPlane aria-hidden="true" />
                           Ask About This Option
                         </button>
                         <Link
                           href={`/packagedetails/${item.id}`}
                           className={`buttonSecondary ${styles.viewMoreButton}`}
                         >
-                          <i className="pi pi-eye" aria-hidden="true" />
+                          <FaEye aria-hidden="true" />
                           View More
                         </Link>
                       </div>
@@ -192,7 +207,7 @@ export function PackagesPageClient() {
                 onClick={() => setSelectedPackage(null)}
                 aria-label="Close inquiry modal"
               >
-                <i className="pi pi-times" aria-hidden="true" />
+                <FaXmark aria-hidden="true" />
                 Close
               </button>
             </div>

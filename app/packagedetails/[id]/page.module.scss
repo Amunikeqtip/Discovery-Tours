@@ -48,9 +48,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 999px;
-  background: rgba(0, 174, 239, 0.1);
-  color: var(--accent-strong);
+}
+
+.listIcon {
+  width: 1.45rem;
+  height: 1.45rem;
+  margin-top: 0.15rem;
 }
 
 .heroMedia,
@@ -204,9 +207,8 @@
     line-height: 1.68;
   }
 
-  li i {
+  li svg {
     margin-top: 0.2rem;
-    color: var(--accent-strong);
   }
 }
 

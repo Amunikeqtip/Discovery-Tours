@@ -1,13 +1,30 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ImageCard } from "@/components/common/image-card";
+import { IconOrb } from "@/components/common/icon-orb";
 import { SectionHeading } from "@/components/common/section-heading";
 import { aboutSections, aboutValues, trustHighlights } from "@/lib/content";
+import {
+  FaBolt,
+  FaBriefcase,
+  FaChartLine,
+  FaCircleCheck,
+  FaImages,
+  FaLayerGroup,
+} from "react-icons/fa6";
 import styles from "./page.module.scss";
 
-const trustIcons = ["pi pi-check-circle", "pi pi-briefcase", "pi pi-chart-line"];
+const trustIcons = [
+  { icon: FaCircleCheck, tone: "mint" as const },
+  { icon: FaBriefcase, tone: "amber" as const },
+  { icon: FaChartLine, tone: "rose" as const },
+];
 
-const valueIcons = ["pi pi-th-large", "pi pi-images", "pi pi-bolt"];
+const valueIcons = [
+  { icon: FaLayerGroup, tone: "sky" as const },
+  { icon: FaImages, tone: "gold" as const },
+  { icon: FaBolt, tone: "violet" as const },
+];
 
 export const metadata: Metadata = {
   title: "About",
@@ -34,7 +51,12 @@ export default function AboutPage() {
             <div className="pillList">
               {trustHighlights.map((item, index) => (
                 <span key={item.title} className="pill">
-                  <i className={trustIcons[index] ?? "pi pi-check-circle"} aria-hidden="true" />
+                  <IconOrb
+                    icon={trustIcons[index]?.icon ?? FaCircleCheck}
+                    tone={trustIcons[index]?.tone ?? "mint"}
+                    className={styles.pillIcon}
+                    size={12}
+                  />
                   {item.title}
                 </span>
               ))}
@@ -82,7 +104,12 @@ export default function AboutPage() {
           <div className={styles.valuesGrid}>
             {aboutValues.map((value, index) => (
               <article key={value.title} className={styles.valueCard}>
-                <i className={`${valueIcons[index] ?? "pi pi-check-circle"} ${styles.valueIcon}`} aria-hidden="true" />
+                <IconOrb
+                  icon={valueIcons[index]?.icon ?? FaCircleCheck}
+                  tone={valueIcons[index]?.tone ?? "mint"}
+                  className={styles.valueIcon}
+                  size={16}
+                />
                 <h2>{value.title}</h2>
                 <p>{value.description}</p>
               </article>

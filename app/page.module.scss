@@ -55,15 +55,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent-strong);
+  color: inherit;
 }
 
 .cardIcon {
   width: 2.4rem;
   height: 2.4rem;
-  border-radius: 999px;
-  background: rgba(0, 174, 239, 0.1);
-  font-size: 1rem;
 }
 
 .heroVisual {
@@ -107,8 +104,12 @@
   width: 2.2rem;
   height: 2.2rem;
   margin-bottom: 0.25rem;
-  border-radius: 999px;
-  background: rgba(0, 174, 239, 0.1);
+}
+
+.listIcon {
+  width: 1.45rem;
+  height: 1.45rem;
+  margin-top: 0.15rem;
 }
 
 .servicesGrid {
@@ -159,9 +160,8 @@
     gap: 0.65rem;
   }
 
-  li i {
+  li svg {
     margin-top: 0.2rem;
-    color: var(--accent-strong);
   }
 }
 
@@ -218,9 +218,8 @@
     gap: 0.65rem;
   }
 
-  li i {
+  li svg {
     margin-top: 0.2rem;
-    color: var(--accent-strong);
   }
 }
 
@@ -254,10 +253,6 @@
   .journeyIcon {
     width: 2.7rem;
     height: 2.7rem;
-    border-radius: 999px;
-    background: rgba(143, 226, 255, 0.12);
-    color: #8fe2ff;
-    font-size: 1.05rem;
   }
 
   span {
