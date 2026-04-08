@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { FaPaperPlane } from "react-icons/fa6";
 import { contactServiceOptions } from "@/lib/content";
 import type { ContactInterest } from "@/lib/types";
 import styles from "./contact-form.module.scss";
@@ -324,6 +325,7 @@ export function ContactForm({
 
       <div className={styles.actions}>
         <button type="submit" className="buttonPrimary" disabled={isPending}>
+          <FaPaperPlane aria-hidden="true" />
           {isPending ? "Sending Inquiry..." : submitLabel}
         </button>
         <p>{footerNote}</p>

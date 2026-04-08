@@ -43,9 +43,8 @@
     line-height: 1.7;
   }
 
-  i {
+  svg {
     margin-top: 0.18rem;
-    color: var(--accent-strong);
   }
 }
 
@@ -91,9 +90,12 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 0.45rem;
-  border-radius: 999px;
-  background: rgba(0, 174, 239, 0.1);
-  color: var(--accent-strong);
+}
+
+.listIcon {
+  width: 1.45rem;
+  height: 1.45rem;
+  margin-top: 0.15rem;
 }
 
 @media (max-width: 980px) {

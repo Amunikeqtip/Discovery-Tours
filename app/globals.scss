@@ -146,7 +146,7 @@ button {
 .buttonRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.8rem;
 }
 
 .buttonPrimary,
@@ -154,12 +154,13 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.6rem;
-  min-height: 3.3rem;
-  padding: 0.95rem 1.4rem;
+  gap: 0.5rem;
+  min-height: 2.85rem;
+  padding: 0.8rem 1.1rem;
   border-radius: 999px;
   border: 1px solid transparent;
   font-weight: 700;
+  font-size: 0.96rem;
   transition:
     transform 180ms ease,
     background-color 180ms ease,
@@ -183,6 +184,11 @@ button {
   color: var(--foreground);
 }
 
+.buttonPrimary svg,
+.buttonSecondary svg {
+  flex-shrink: 0;
+}
+
 .pillList {
   display: flex;
   flex-wrap: wrap;
@@ -200,7 +206,7 @@ button {
   color: var(--muted);
 }
 
-.pill i {
+.pill svg {
   color: var(--accent-strong);
 }
 
@@ -214,7 +220,7 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.78rem 1rem;
+  padding: 0.7rem 0.95rem;
   border-radius: 999px;
   border: 1px solid rgba(0, 174, 239, 0.18);
   background: rgba(255, 255, 255, 0.82);
@@ -228,6 +234,29 @@ button {
     transform: translateY(-2px);
     border-color: rgba(0, 174, 239, 0.3);
     background: rgba(255, 255, 255, 0.96);
+  }
+}
+
+.iconOrb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 999px;
+}
+
+@media (max-width: 768px) {
+  .buttonRow {
+    width: 100%;
+  }
+
+  .buttonRow > * {
+    width: 100%;
+  }
+
+  .buttonPrimary,
+  .buttonSecondary {
+    width: 100%;
   }
 }
 

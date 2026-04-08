@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { ContactForm } from "@/components/contact/contact-form";
+import { IconOrb } from "@/components/common/icon-orb";
 import { contactChecklist, contactServiceOptions } from "@/lib/content";
 import type { ContactInterest } from "@/lib/types";
+import { FaCircleCheck, FaComments, FaEnvelope } from "react-icons/fa6";
 import styles from "./page.module.scss";
 
 export const metadata: Metadata = {
@@ -51,7 +53,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             <ul>
               {contactChecklist.map((item) => (
                 <li key={item}>
-                  <i className="pi pi-check-circle" aria-hidden="true" />
+                  <IconOrb icon={FaCircleCheck} tone="mint" className={styles.listIcon} size={12} />
                   <span>{item}</span>
                 </li>
               ))}
@@ -67,7 +69,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
           </div>
           <div className={styles.infoPanel}>
             <div className={styles.infoCard}>
-              <i className={`pi pi-comments ${styles.infoIcon}`} aria-hidden="true" />
+              <IconOrb icon={FaComments} tone="sky" className={styles.infoIcon} size={16} />
               <p className="eyebrow">Inquiry First</p>
               <h2>Designed for tailored follow-up</h2>
               <p>
@@ -77,7 +79,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
               </p>
             </div>
             <div className={styles.infoCard}>
-              <i className={`pi pi-envelope ${styles.infoIcon}`} aria-hidden="true" />
+              <IconOrb icon={FaEnvelope} tone="rose" className={styles.infoIcon} size={16} />
               <p className="eyebrow">Admin Setup</p>
               <h2>Environment-based mail delivery</h2>
               <p>

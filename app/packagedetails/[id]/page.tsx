@@ -2,7 +2,18 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { IconOrb } from "@/components/common/icon-orb";
 import { getPackageById, packageItems } from "@/lib/content";
+import {
+  FaArrowLeft,
+  FaCalendarDays,
+  FaCircleCheck,
+  FaImages,
+  FaMapLocationDot,
+  FaPaperPlane,
+  FaTags,
+  FaUsers,
+} from "react-icons/fa6";
 import styles from "./page.module.scss";
 
 type PackageDetailsPageProps = {
@@ -55,17 +66,17 @@ export default async function PackageDetailsPage({
             <p className="pageLead">{packageItem.summary}</p>
             <div className={styles.statsRow}>
               <div className={styles.statCard}>
-                <i className={`pi pi-calendar ${styles.statIcon}`} aria-hidden="true" />
+                <IconOrb icon={FaCalendarDays} tone="sky" className={styles.statIcon} size={14} />
                 <span>Duration</span>
                 <strong>{packageItem.duration}</strong>
               </div>
               <div className={styles.statCard}>
-                <i className={`pi pi-tag ${styles.statIcon}`} aria-hidden="true" />
+                <IconOrb icon={FaTags} tone="gold" className={styles.statIcon} size={14} />
                 <span>Service Type</span>
                 <strong>{packageItem.categoryLabel}</strong>
               </div>
               <div className={styles.statCard}>
-                <i className={`pi pi-images ${styles.statIcon}`} aria-hidden="true" />
+                <IconOrb icon={FaImages} tone="violet" className={styles.statIcon} size={14} />
                 <span>Picture Slots</span>
                 <strong>{packageItem.gallery.length} visuals</strong>
               </div>
@@ -75,11 +86,11 @@ export default async function PackageDetailsPage({
                 href={`/contact?interest=${packageItem.category}`}
                 className="buttonPrimary"
               >
-                <i className="pi pi-send" aria-hidden="true" />
+                <FaPaperPlane aria-hidden="true" />
                 Inquire About This Package
               </Link>
               <Link href="/packages" className="buttonSecondary">
-                <i className="pi pi-arrow-left" aria-hidden="true" />
+                <FaArrowLeft aria-hidden="true" />
                 Back To Packages
               </Link>
             </div>
@@ -163,7 +174,7 @@ export default async function PackageDetailsPage({
               <ul>
                 {packageItem.included.map((item) => (
                   <li key={item}>
-                    <i className="pi pi-check-circle" aria-hidden="true" />
+                    <IconOrb icon={FaCircleCheck} tone="mint" className={styles.listIcon} size={12} />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -176,7 +187,7 @@ export default async function PackageDetailsPage({
               <ul>
                 {packageItem.perfectFor.map((item) => (
                   <li key={item}>
-                    <i className="pi pi-users" aria-hidden="true" />
+                    <IconOrb icon={FaUsers} tone="rose" className={styles.listIcon} size={12} />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -189,7 +200,7 @@ export default async function PackageDetailsPage({
               <ul>
                 {packageItem.logistics.map((item) => (
                   <li key={item}>
-                    <i className="pi pi-map-marker" aria-hidden="true" />
+                    <IconOrb icon={FaMapLocationDot} tone="sky" className={styles.listIcon} size={12} />
                     <span>{item}</span>
                   </li>
                 ))}

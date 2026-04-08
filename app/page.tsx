@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { BrandLogo } from "@/components/common/brand-logo";
 import { ImageCard } from "@/components/common/image-card";
+import { IconOrb } from "@/components/common/icon-orb";
 import { SectionHeading } from "@/components/common/section-heading";
 import {
   featuredPackages,
@@ -10,17 +11,39 @@ import {
   trustHighlights,
 } from "@/lib/content";
 import type { ServiceCategory } from "@/lib/types";
+import {
+  FaBriefcase,
+  FaCarSide,
+  FaChartLine,
+  FaCircleCheck,
+  FaComments,
+  FaHotel,
+  FaMagnifyingGlass,
+  FaPaperPlane,
+  FaPersonHiking,
+} from "react-icons/fa6";
 import styles from "./page.module.scss";
 
-const serviceIcons: Record<ServiceCategory, string> = {
-  transfers: "pi pi-car",
-  accommodation: "pi pi-home",
-  activities: "pi pi-compass",
+const serviceIcons: Record<
+  ServiceCategory,
+  { icon: typeof FaCarSide; tone: "sky" | "gold" | "violet" }
+> = {
+  transfers: { icon: FaCarSide, tone: "sky" },
+  accommodation: { icon: FaHotel, tone: "gold" },
+  activities: { icon: FaPersonHiking, tone: "violet" },
 };
 
-const trustIcons = ["pi pi-check-circle", "pi pi-briefcase", "pi pi-chart-line"];
+const trustIcons = [
+  { icon: FaCircleCheck, tone: "mint" as const },
+  { icon: FaBriefcase, tone: "amber" as const },
+  { icon: FaChartLine, tone: "rose" as const },
+];
 
-const journeyIcons = ["pi pi-search", "pi pi-comments", "pi pi-send"];
+const journeyIcons = [
+  { icon: FaMagnifyingGlass, tone: "sky" as const },
+  { icon: FaComments, tone: "violet" as const },
+  { icon: FaPaperPlane, tone: "gold" as const },
+];
 
 export const metadata: Metadata = {
   title: "Home",
@@ -57,7 +80,12 @@ export default function HomePage() {
             <div className={styles.highlightGrid}>
               {trustHighlights.map((highlight, index) => (
                 <article key={highlight.title} className={styles.highlightCard}>
-                  <i className={`${trustIcons[index] ?? "pi pi-check-circle"} ${styles.cardIcon}`} aria-hidden="true" />
+                  <IconOrb
+                    icon={trustIcons[index]?.icon ?? FaCircleCheck}
+                    tone={trustIcons[index]?.tone ?? "mint"}
+                    className={styles.cardIcon}
+                    size={16}
+                  />
                   <h2>{highlight.title}</h2>
                   <p>{highlight.description}</p>
                 </article>
@@ -79,7 +107,12 @@ export default function HomePage() {
                   href={`/contact?interest=${service.category}`}
                   className={styles.servicePill}
                 >
-                  <i className={`${serviceIcons[service.category]} ${styles.servicePillIcon}`} aria-hidden="true" />
+                  <IconOrb
+                    icon={serviceIcons[service.category].icon}
+                    tone={serviceIcons[service.category].tone}
+                    className={styles.servicePillIcon}
+                    size={15}
+                  />
                   <span>{service.title}</span>
                   <strong>{service.shortLabel}</strong>
                 </Link>
@@ -114,7 +147,7 @@ export default function HomePage() {
                   <ul>
                     {service.highlights.map((highlight) => (
                       <li key={highlight}>
-                        <i className="pi pi-check-circle" aria-hidden="true" />
+                        <IconOrb icon={FaCircleCheck} tone="mint" className={styles.listIcon} size={12} />
                         <span>{highlight}</span>
                       </li>
                     ))}
@@ -123,7 +156,7 @@ export default function HomePage() {
                     href={`/contact?interest=${service.category}`}
                     className="buttonSecondary"
                   >
-                    <i className="pi pi-send" aria-hidden="true" />
+                    <FaPaperPlane aria-hidden="true" />
                     Ask About {service.shortLabel}
                   </Link>
                 </div>
@@ -152,7 +185,7 @@ export default function HomePage() {
                 <ul>
                   {item.highlights.map((highlight) => (
                     <li key={highlight}>
-                      <i className="pi pi-check-circle" aria-hidden="true" />
+                      <IconOrb icon={FaCircleCheck} tone="mint" className={styles.listIcon} size={12} />
                       <span>{highlight}</span>
                     </li>
                   ))}
@@ -161,7 +194,7 @@ export default function HomePage() {
                   href={`/contact?interest=${item.category}`}
                   className="buttonSecondary"
                 >
-                  <i className="pi pi-send" aria-hidden="true" />
+                  <FaPaperPlane aria-hidden="true" />
                   Inquire About This Package
                 </Link>
               </article>
@@ -180,7 +213,12 @@ export default function HomePage() {
           <div className={styles.journeyGrid}>
             {homeJourneySteps.map((step, index) => (
               <article key={step.title} className={styles.journeyCard}>
-                <i className={`${journeyIcons[index] ?? "pi pi-circle"} ${styles.journeyIcon}`} aria-hidden="true" />
+                <IconOrb
+                  icon={journeyIcons[index]?.icon ?? FaMagnifyingGlass}
+                  tone={journeyIcons[index]?.tone ?? "sky"}
+                  className={styles.journeyIcon}
+                  size={16}
+                />
                 <span>{step.step}</span>
                 <h3>{step.title}</h3>
                 <p>{step.description}</p>
