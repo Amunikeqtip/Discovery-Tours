@@ -31,7 +31,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       message:
-        "Your inquiry has been sent successfully. The admin team can now review your request.",
+        "Your inquiry has been sent successfully. The admin team has been notified and a confirmation email has been sent to you.",
     });
   } catch (error) {
     console.error("Failed to send contact inquiry email", error);
