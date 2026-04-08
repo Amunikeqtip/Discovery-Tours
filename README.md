@@ -23,11 +23,13 @@ A premium tourism and hospitality website built with Next.js, TypeScript, and SC
 npm install
 ```
 
-2. Create an environment file from the example and add your real SMTP values:
+2. Review `appsettings.json` and update the SMTP values:
 
 ```bash
-copy .env.example .env.local
+notepad appsettings.json
 ```
+
+Optional: create `appsettings.local.json` for machine-specific overrides. Any values in that file override `appsettings.json` and it is ignored by git.
 
 3. Start the development server:
 
@@ -37,21 +39,48 @@ npm run dev
 
 4. Open `http://localhost:3000`.
 
-## Required Environment Variables
+## Mail Settings
 
-```env
-SMTP_HOST=
-SMTP_PORT=
-SMTP_USER=
-SMTP_PASS=
-SMTP_SECURE=
-MAIL_FROM_NAME=
-MAIL_FROM_ADDRESS=
-ADMIN_CONTACT_EMAIL=
+```json
+{
+  "mail": {
+    "fromName": "Victoria Falls Discovery Tours",
+    "fromAddress": "noreply@shearwatervf.com",
+    "brandLink": "https://discovery-tours.vercel.app/",
+    "adminRecipients": [
+      "tedwell@outlook.com",
+      "amunikesibanibani@outlook.com"
+    ],
+    "transport": {
+      "mode": "smtp",
+      "smtp": {
+        "host": "smtp.itanywhere.africa",
+        "port": 587,
+        "user": "noreply@shearwatervf.com",
+        "pass": "replace-with-secure-password",
+        "secure": true
+      },
+      "file": {
+        "outputDirectory": ".mail-drop"
+      }
+    }
+  }
+}
 ```
 
-`ADMIN_CONTACT_EMAIL` is the inbox that receives contact form submissions.
+Set `mail.transport.mode` to `smtp` for live delivery. Use `file` to write `.eml`, `.html`, and `.json` previews into `.mail-drop` for local template verification.
+
+## Email Verification
+
+Build the app, then run the contact-email verifier:
+
+```bash
+npm run build
+npm run test:email
+```
+
+The verifier executes the built `POST /api/contact` route, generates the admin and guest email outputs, and confirms that the admin email contains the expected template content.
 
 ## Contact Flow
 
-The contact form posts to `POST /api/contact`, validates the request with Zod, and sends the inquiry through the configured SMTP account. SMTP values remain server-side and are never exposed to the client bundle.
+The contact form posts to `POST /api/contact`, validates the request with Zod, and sends the inquiry through the configured mail transport. Mail settings are read server-side from `appsettings.json` with optional local overrides from `appsettings.local.json`.

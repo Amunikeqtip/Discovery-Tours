@@ -1,76 +1,24 @@
+import { randomUUID } from "node:crypto";
+import { mkdir, writeFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import nodemailer from "nodemailer";
+import type Mail from "nodemailer/lib/mailer";
 import { contactInterestLabels } from "@/lib/content";
+import { getAppSettings, type MailSettings } from "@/lib/app-settings";
 import type { ContactInquiry } from "@/lib/types";
 
-type MailEnvironment = {
-  host: string;
-  port: number;
-  user: string;
-  pass: string;
+type MailDeliveryContext = {
+  fileOutputDirectory: string | null;
   fromName: string;
   fromAddress: string;
   adminRecipients: string[];
-  tlsEnabled: boolean;
   brandLink: string;
 };
 
-function requireEnv(name: string) {
-  const value = process.env[name];
-
-  if (!value) {
-    throw new Error(`Missing required environment variable: ${name}`);
-  }
-
-  return value;
-}
-
-function parseBoolean(value: string) {
-  return ["true", "1", "yes", "on"].includes(value.toLowerCase());
-}
-
-function parseRecipientList(value: string) {
-  return value
-    .split(",")
-    .map((item) => item.trim())
-    .filter(Boolean);
-}
-
-function requireAdminRecipients() {
-  const listValue =
-    process.env.ADMIN_CONTACT_EMAILS ?? process.env.ADMIN_CONTACT_EMAIL;
-
-  if (!listValue) {
-    throw new Error(
-      "Missing required environment variable: ADMIN_CONTACT_EMAILS or ADMIN_CONTACT_EMAIL",
-    );
-  }
-
-  const recipients = parseRecipientList(listValue);
-
-  if (!recipients.length) {
-    throw new Error("At least one admin recipient email address is required.");
-  }
-
-  return recipients;
-}
-
-function getMailEnvironment(): MailEnvironment {
-  const port = Number.parseInt(requireEnv("SMTP_PORT"), 10);
-
-  if (Number.isNaN(port)) {
-    throw new Error("SMTP_PORT must be a valid number.");
-  }
-
+function getMailSettings(): MailSettings {
+  const appSettings = getAppSettings();
   return {
-    host: requireEnv("SMTP_HOST"),
-    port,
-    user: requireEnv("SMTP_USER"),
-    pass: requireEnv("SMTP_PASS"),
-    fromName: requireEnv("MAIL_FROM_NAME"),
-    fromAddress: requireEnv("MAIL_FROM_ADDRESS"),
-    adminRecipients: requireAdminRecipients(),
-    tlsEnabled: parseBoolean(requireEnv("SMTP_SECURE")),
-    brandLink: process.env.MAIL_BRAND_LINK ?? "https://seventeencatering.com/#",
+    ...appSettings.mail,
   };
 }
 
@@ -226,36 +174,129 @@ function buildUserHtml(inquiry: ContactInquiry, brandLink: string) {
   `;
 }
 
+function createMailDeliveryContext(
+  mailSettings: MailSettings,
+): MailDeliveryContext & { transporter: nodemailer.Transporter } {
+  if (mailSettings.transport.mode === "file") {
+    return {
+      transporter: nodemailer.createTransport({
+        streamTransport: true,
+        buffer: true,
+        newline: "unix",
+      }),
+      fileOutputDirectory: mailSettings.transport.file.outputDirectory,
+      fromName: mailSettings.fromName,
+      fromAddress: mailSettings.fromAddress,
+      adminRecipients: mailSettings.adminRecipients,
+      brandLink: mailSettings.brandLink,
+    };
+  }
+
+  const { host, port, user, pass, secure } = mailSettings.transport.smtp;
+  const useImplicitTls = secure && port === 465;
+
+  return {
+    transporter: nodemailer.createTransport({
+      host,
+      port,
+      secure: useImplicitTls,
+      requireTLS: secure && !useImplicitTls,
+      auth: {
+        user,
+        pass,
+      },
+    }),
+    fileOutputDirectory: null,
+    fromName: mailSettings.fromName,
+    fromAddress: mailSettings.fromAddress,
+    adminRecipients: mailSettings.adminRecipients,
+    brandLink: mailSettings.brandLink,
+  };
+}
+
+function sanitizeFilePart(value: string) {
+  return value
+    .toLowerCase()
+    .replaceAll(/[^a-z0-9]+/g, "-")
+    .replaceAll(/^-+|-+$/g, "")
+    .slice(0, 48);
+}
+
+async function persistMessagePreview(
+  outputDirectory: string,
+  kind: "admin" | "guest",
+  message: Mail.Options,
+  transportResult: { message?: Buffer | string },
+) {
+  const resolvedDirectory = resolve(process.cwd(), outputDirectory);
+  const timestamp = new Date().toISOString().replaceAll(/[:.]/g, "-");
+  const subjectPart = sanitizeFilePart(message.subject ?? kind) || kind;
+  const baseName = `${timestamp}-${kind}-${subjectPart}-${randomUUID().slice(0, 8)}`;
+
+  await mkdir(resolvedDirectory, { recursive: true });
+
+  const rawMessage = transportResult.message
+    ? Buffer.isBuffer(transportResult.message)
+      ? transportResult.message
+      : Buffer.from(transportResult.message)
+    : Buffer.from("");
+
+  await writeFile(resolve(resolvedDirectory, `${baseName}.eml`), rawMessage);
+
+  if (typeof message.html === "string") {
+    await writeFile(resolve(resolvedDirectory, `${baseName}.html`), message.html);
+  }
+
+  await writeFile(
+    resolve(resolvedDirectory, `${baseName}.json`),
+    JSON.stringify(
+      {
+        subject: message.subject,
+        to: message.to,
+        replyTo: message.replyTo,
+        generatedAt: new Date().toISOString(),
+      },
+      null,
+      2,
+    ),
+  );
+}
+
+async function sendMessage(
+  deliveryContext: MailDeliveryContext & { transporter: nodemailer.Transporter },
+  kind: "admin" | "guest",
+  message: Mail.Options,
+) {
+  const result = await deliveryContext.transporter.sendMail(message);
+
+  if (deliveryContext.fileOutputDirectory) {
+    await persistMessagePreview(
+      deliveryContext.fileOutputDirectory,
+      kind,
+      message,
+      result,
+    );
+  }
+}
+
 export async function sendContactInquiryEmail(inquiry: ContactInquiry) {
-  const mailEnvironment = getMailEnvironment();
-  const useImplicitTls = mailEnvironment.tlsEnabled && mailEnvironment.port === 465;
+  const deliveryContext = createMailDeliveryContext(getMailSettings());
 
-  const transporter = nodemailer.createTransport({
-    host: mailEnvironment.host,
-    port: mailEnvironment.port,
-    secure: useImplicitTls,
-    requireTLS: mailEnvironment.tlsEnabled && !useImplicitTls,
-    auth: {
-      user: mailEnvironment.user,
-      pass: mailEnvironment.pass,
-    },
-  });
-
-  await transporter.sendMail({
-    from: `"${mailEnvironment.fromName}" <${mailEnvironment.fromAddress}>`,
-    to: mailEnvironment.adminRecipients.join(", "),
+  await sendMessage(deliveryContext, "admin", {
+    from: `"${deliveryContext.fromName}" <${deliveryContext.fromAddress}>`,
+    to: deliveryContext.adminRecipients.join(", "),
     replyTo: inquiry.email,
     subject: `New enquiry: ${contactInterestLabels[inquiry.serviceInterest]} - ${inquiry.name}`,
     text: buildAdminPlainText(inquiry),
-    html: buildAdminHtml(inquiry, mailEnvironment.brandLink),
+    html: buildAdminHtml(inquiry, deliveryContext.brandLink),
   });
 
-  await transporter.sendMail({
-    from: `"${mailEnvironment.fromName}" <${mailEnvironment.fromAddress}>`,
+  await sendMessage(deliveryContext, "guest", {
+    from: `"${deliveryContext.fromName}" <${deliveryContext.fromAddress}>`,
     to: inquiry.email,
-    replyTo: mailEnvironment.adminRecipients[0],
+    replyTo: deliveryContext.adminRecipients[0],
     subject: `We received your Victoria Falls Discovery Tours inquiry`,
     text: buildUserPlainText(inquiry),
-    html: buildUserHtml(inquiry, mailEnvironment.brandLink),
+    html: buildUserHtml(inquiry, deliveryContext.brandLink),
   });
 }
