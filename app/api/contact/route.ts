@@ -27,11 +27,15 @@ export async function POST(request: Request) {
   }
 
   try {
-    await sendContactInquiryEmail(parsed.data);
+    const deliveryResult = await sendContactInquiryEmail(parsed.data);
+
+    const message =
+      deliveryResult.deliveryMode === "smtp"
+        ? "Your inquiry has been sent successfully. The admin team has been notified."
+        : "Your inquiry has been received. Live email delivery is temporarily unavailable, so the admin team will review the queued message.";
 
     return NextResponse.json({
-      message:
-        "Your inquiry has been sent successfully. The admin team has been notified and a confirmation email has been sent to you.",
+      message,
     });
   } catch (error) {
     console.error("Failed to send contact inquiry email", error);

@@ -810,8 +810,123 @@ export const contactServiceOptions: Array<{
   { value: "custom-itinerary", label: "Custom itinerary" },
 ];
 
+export const contactServiceSelectionOptions = {
+  transfers: [
+    {
+      value: "local-transfer-victoria-falls",
+      label: "Local transfers within Victoria Falls",
+    },
+    {
+      value: "zimbabwe-to-botswana-transfer",
+      label: "Zimbabwe to Botswana transfer",
+    },
+    {
+      value: "zimbabwe-to-zambia-transfer",
+      label: "Zimbabwe to Zambia transfer",
+    },
+    {
+      value: "airport-transfer",
+      label: "Airport transfer",
+    },
+    {
+      value: "other-transfer",
+      label: "Other transfer / not sure",
+    },
+  ],
+  accommodation: [
+    {
+      value: "explorers-village",
+      label: "Explorers Village",
+    },
+    {
+      value: "airbnb-stay",
+      label: "Airbnb or holiday home",
+    },
+    {
+      value: "hotel-or-lodge",
+      label: "Hotels or lodges in Victoria Falls",
+    },
+    {
+      value: "other-accommodation",
+      label: "Other accommodation / not sure",
+    },
+  ],
+  activities: [
+    {
+      value: "bungee-jumping",
+      label: "Bungee jumping",
+    },
+    {
+      value: "boat-cruise",
+      label: "Boat cruise",
+    },
+    {
+      value: "jet-boat",
+      label: "Jet boat",
+    },
+    {
+      value: "helicopter-ride",
+      label: "Helicopter ride",
+    },
+    {
+      value: "elephant-encounter",
+      label: "Elephant encounter",
+    },
+    {
+      value: "cheetah-encounter",
+      label: "Cheetah encounter",
+    },
+    {
+      value: "forest-walk",
+      label: "Forest walk",
+    },
+    {
+      value: "other-activity",
+      label: "Other activity / not sure",
+    },
+  ],
+  "custom-itinerary": [
+    {
+      value: "custom-enquiry",
+      label: "General enquiry / not sure",
+    },
+  ],
+} as const;
+
+export function getContactServiceSelectionOptions(serviceInterest: ContactInterest) {
+  return contactServiceSelectionOptions[serviceInterest];
+}
+
+export function getDefaultContactServiceSelection(serviceInterest: ContactInterest) {
+  return getContactServiceSelectionOptions(serviceInterest)[0]?.value ?? "";
+}
+
+export function getContactServiceSelectionLabel(
+  serviceInterest: ContactInterest,
+  selection: string,
+) {
+  return (
+    getContactServiceSelectionOptions(serviceInterest).find(
+      (option) => option.value === selection,
+    )?.label ?? selection
+  );
+}
+
+export function getContactServiceSelectionFieldLabel(serviceInterest: ContactInterest) {
+  switch (serviceInterest) {
+    case "transfers":
+      return "Which transfer do you need?";
+    case "accommodation":
+      return "Which accommodation are you interested in?";
+    case "activities":
+      return "Which activity do you want to book?";
+    default:
+      return "How can we help?";
+  }
+}
+
 export const contactChecklist = [
-  "What service or package you are most interested in",
+  "Which service category and exact option you want us to quote",
   "Your preferred travel dates or month of travel",
   "How many guests will be traveling",
   "Any comfort level, activity, or accommodation preferences",

@@ -62,6 +62,7 @@ export type ContactInquiry = {
   email: string;
   phone: string;
   serviceInterest: ContactInterest;
+  serviceSelection: string;
   travelDates: string;
   guestCount: number;
   message: string;

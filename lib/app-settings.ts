@@ -89,6 +89,82 @@ function readSettingsFile(filePath: string) {
   return JSON.parse(readFileSync(filePath, "utf8")) as unknown;
 }
 
+function parseBoolean(value: string | undefined) {
+  if (!value) {
+    return undefined;
+  }
+
+  return ["1", "true", "yes", "on"].includes(value.trim().toLowerCase());
+}
+
+function buildEnvironmentOverrides(): Partial<AppSettings> {
+  const smtpHost = process.env.SMTP_HOST?.trim();
+  const smtpPort = process.env.SMTP_PORT?.trim();
+  const smtpUser = process.env.SMTP_USER?.trim();
+  const smtpPass = process.env.SMTP_PASS?.trim();
+  const smtpSecure = parseBoolean(process.env.SMTP_SECURE);
+  const mailTransportMode = process.env.MAIL_TRANSPORT_MODE?.trim().toLowerCase();
+  const mailFromName = process.env.MAIL_FROM_NAME?.trim();
+  const mailFromAddress = process.env.MAIL_FROM_ADDRESS?.trim();
+  const brandLink = process.env.MAIL_BRAND_LINK?.trim();
+  const adminRecipients = process.env.ADMIN_CONTACT_EMAIL?.trim();
+  const outputDirectory = process.env.MAIL_FILE_OUTPUT_DIRECTORY?.trim();
+
+  const smtpProvided = Boolean(smtpHost && smtpPort && smtpUser && smtpPass);
+  const transportMode =
+    mailTransportMode === "smtp" || mailTransportMode === "file"
+      ? mailTransportMode
+      : undefined;
+
+  const mailOverrides: Record<string, unknown> = {};
+
+  if (transportMode || smtpProvided || outputDirectory) {
+    const transportOverrides: Record<string, unknown> = {};
+
+    if (transportMode) {
+      transportOverrides.mode = transportMode;
+    }
+
+    if (smtpProvided) {
+      transportOverrides.smtp = {
+        host: smtpHost as string,
+        port: Number(smtpPort),
+        user: smtpUser as string,
+        pass: smtpPass as string,
+        secure: smtpSecure ?? false,
+      };
+    }
+
+    if (outputDirectory) {
+      transportOverrides.file = {
+        outputDirectory,
+      };
+    }
+
+    mailOverrides.transport = transportOverrides;
+  }
+
+  if (mailFromName) {
+    mailOverrides.fromName = mailFromName;
+  }
+
+  if (mailFromAddress) {
+    mailOverrides.fromAddress = mailFromAddress;
+  }
+
+  if (brandLink) {
+    mailOverrides.brandLink = brandLink;
+  }
+
+  if (adminRecipients) {
+    mailOverrides.adminRecipients = [adminRecipients];
+  }
+
+  return Object.keys(mailOverrides).length > 0
+    ? { mail: mailOverrides as AppSettings["mail"] }
+    : {};
+}
+
 function getSettingsPaths() {
   return {
     base: resolve(process.cwd(), "appsettings.json"),
@@ -112,7 +188,9 @@ export function getAppSettings() {
     ? mergeJson(baseSettings, readSettingsFile(settingsPaths.local))
     : baseSettings;
 
-  const parsedSettings = appSettingsSchema.safeParse(mergedSettings);
+  const parsedSettings = appSettingsSchema.safeParse(
+    mergeJson(mergedSettings, buildEnvironmentOverrides()),
+  );
 
   if (!parsedSettings.success) {
     throw new Error(

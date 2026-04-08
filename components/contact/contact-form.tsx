@@ -2,7 +2,12 @@
 
 import { useState, useTransition } from "react";
 import { FaPaperPlane } from "react-icons/fa6";
-import { contactServiceOptions } from "@/lib/content";
+import {
+  contactServiceOptions,
+  getContactServiceSelectionFieldLabel,
+  getContactServiceSelectionOptions,
+  getDefaultContactServiceSelection,
+} from "@/lib/content";
 import type { ContactInterest } from "@/lib/types";
 import styles from "./contact-form.module.scss";
 
@@ -21,6 +26,7 @@ type FormState = {
   email: string;
   phone: string;
   serviceInterest: ContactInterest;
+  serviceSelection: string;
   arrivalDate: string;
   departureDate: string;
   guestCount: string;
@@ -43,6 +49,7 @@ function createInitialState(
     email: "",
     phone: "",
     serviceInterest,
+    serviceSelection: getDefaultContactServiceSelection(serviceInterest),
     arrivalDate: "",
     departureDate: "",
     guestCount: "",
@@ -96,11 +103,25 @@ export function ContactForm({
   });
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [isPending, startTransition] = useTransition();
+  const serviceSelectionOptions = getContactServiceSelectionOptions(
+    form.serviceInterest,
+  );
+  const serviceSelectionLabel = getContactServiceSelectionFieldLabel(
+    form.serviceInterest,
+  );
 
   function updateField<K extends keyof FormState>(field: K, value: FormState[K]) {
     setForm((current) => ({
       ...current,
       [field]: value,
+    }));
+  }
+
+  function updateServiceInterest(serviceInterest: ContactInterest) {
+    setForm((current) => ({
+      ...current,
+      serviceInterest,
+      serviceSelection: getDefaultContactServiceSelection(serviceInterest),
     }));
   }
 
@@ -136,6 +157,7 @@ export function ContactForm({
             email: form.email,
             phone: form.phone,
             serviceInterest: form.serviceInterest,
+            serviceSelection: form.serviceSelection,
             travelDates: formatTravelDatesForSubmission(
               form.arrivalDate,
               form.departureDate,
@@ -239,7 +261,7 @@ export function ContactForm({
             name="serviceInterest"
             value={form.serviceInterest}
             onChange={(event) =>
-              updateField("serviceInterest", event.target.value as ContactInterest)
+              updateServiceInterest(event.target.value as ContactInterest)
             }
             aria-invalid={Boolean(fieldErrors.serviceInterest)}
           >
@@ -254,6 +276,25 @@ export function ContactForm({
           ) : null}
         </label>
       </div>
+
+      <label className={styles.field}>
+        <span>{serviceSelectionLabel}</span>
+        <select
+          name="serviceSelection"
+          value={form.serviceSelection}
+          onChange={(event) => updateField("serviceSelection", event.target.value)}
+          aria-invalid={Boolean(fieldErrors.serviceSelection)}
+        >
+          {serviceSelectionOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        {fieldErrors.serviceSelection ? (
+          <small>{fieldErrors.serviceSelection}</small>
+        ) : null}
+      </label>
 
       <div className={styles.gridTwo}>
         <label className={styles.field}>
