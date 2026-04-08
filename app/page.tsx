@@ -94,10 +94,10 @@ export default function HomePage() {
           </div>
           <div className={styles.heroVisual}>
             <ImageCard
-              src="/placeholders/hero.svg"
-              alt="Illustrated placeholder for future Victoria Falls photography"
-              label="Gallery-ready hero slot"
-              caption="High-impact visuals can be swapped in later without changing the layout."
+              src="/photos/victoria-falls-hero.jpg"
+              alt="Panoramic Victoria Falls view used as the site hero image"
+              label="Victoria Falls"
+              caption="Real destination photography now anchors the first impression of the site."
               priority
             />
             <div className={styles.servicePills}>
