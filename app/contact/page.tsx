@@ -9,7 +9,7 @@ import styles from "./page.module.scss";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Send an inquiry directly to the admin team with your travel dates, guest count, service interest, and travel notes.",
+    "Send an inquiry directly to the admin team with your travel dates, guest count, service interest, exact option, and travel notes.",
 };
 
 type ContactPageProps = {
@@ -43,9 +43,11 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             </h1>
             <p className="pageLead">
               The enquiry form is designed for fast completion while still
-              capturing the details needed to shape a helpful response. Messages
-              are submitted server-side and delivered through the configured SMTP
-              account.
+              capturing the details needed to shape a helpful response.
+              Choose the service category first, then pick the exact
+              accommodation, transfer, or activity so the admin team can reply
+              more accurately. Messages are submitted server-side and delivered
+              through the configured SMTP account.
             </p>
           </div>
           <aside className={styles.contactGuide}>

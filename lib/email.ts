@@ -3,7 +3,10 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import nodemailer from "nodemailer";
 import type Mail from "nodemailer/lib/mailer";
-import { contactInterestLabels } from "@/lib/content";
+import {
+  contactInterestLabels,
+  getContactServiceSelectionLabel,
+} from "@/lib/content";
 import { getAppSettings, type MailSettings } from "@/lib/app-settings";
 import type { ContactInquiry } from "@/lib/types";
 
@@ -39,6 +42,10 @@ function buildAdminPlainText(inquiry: ContactInquiry) {
     `Email: ${inquiry.email}`,
     `Phone / WhatsApp: ${inquiry.phone}`,
     `Service interest: ${contactInterestLabels[inquiry.serviceInterest]}`,
+    `Specific request: ${getContactServiceSelectionLabel(
+      inquiry.serviceInterest,
+      inquiry.serviceSelection,
+    )}`,
     `Travel dates: ${inquiry.travelDates}`,
     `Guest count: ${inquiry.guestCount}`,
     "",
@@ -56,6 +63,10 @@ function buildUserPlainText(inquiry: ContactInquiry) {
     "",
     "Inquiry summary",
     `Service interest: ${contactInterestLabels[inquiry.serviceInterest]}`,
+    `Specific request: ${getContactServiceSelectionLabel(
+      inquiry.serviceInterest,
+      inquiry.serviceSelection,
+    )}`,
     `Travel dates: ${inquiry.travelDates}`,
     `Guest count: ${inquiry.guestCount}`,
     `Phone / WhatsApp: ${inquiry.phone}`,
@@ -87,6 +98,15 @@ function buildSummaryRows(inquiry: ContactInquiry) {
       <td style="padding: 12px 0; font-weight: 700; color: #111827;">Service interest</td>
       <td style="padding: 12px 0; color: #374151;">${escapeHtml(
         contactInterestLabels[inquiry.serviceInterest],
+      )}</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px 0; font-weight: 700; color: #111827;">Specific request</td>
+      <td style="padding: 12px 0; color: #374151;">${escapeHtml(
+        getContactServiceSelectionLabel(
+          inquiry.serviceInterest,
+          inquiry.serviceSelection,
+        ),
       )}</td>
     </tr>
     <tr>
@@ -214,6 +234,22 @@ function createMailDeliveryContext(
   };
 }
 
+function createFileFallbackContext(
+  mailSettings: MailSettings,
+  outputDirectory = ".mail-drop",
+): MailDeliveryContext & { transporter: nodemailer.Transporter } {
+  return createMailDeliveryContext({
+    ...mailSettings,
+    transport: {
+      ...mailSettings.transport,
+      mode: "file",
+      file: {
+        outputDirectory,
+      },
+    },
+  });
+}
+
 function sanitizeFilePart(value: string) {
   return value
     .toLowerCase()
@@ -280,23 +316,54 @@ async function sendMessage(
 }
 
 export async function sendContactInquiryEmail(inquiry: ContactInquiry) {
-  const deliveryContext = createMailDeliveryContext(getMailSettings());
-
-  await sendMessage(deliveryContext, "admin", {
-    from: `"${deliveryContext.fromName}" <${deliveryContext.fromAddress}>`,
-    to: deliveryContext.adminRecipients.join(", "),
+  const mailSettings = getMailSettings();
+  const adminMessage = {
+    from: `"${mailSettings.fromName}" <${mailSettings.fromAddress}>`,
+    to: mailSettings.adminRecipients.join(", "),
     replyTo: inquiry.email,
-    subject: `New enquiry: ${contactInterestLabels[inquiry.serviceInterest]} - ${inquiry.name}`,
+    subject: `New enquiry: ${contactInterestLabels[inquiry.serviceInterest]} - ${getContactServiceSelectionLabel(
+      inquiry.serviceInterest,
+      inquiry.serviceSelection,
+    )} - ${inquiry.name}`,
     text: buildAdminPlainText(inquiry),
-    html: buildAdminHtml(inquiry, deliveryContext.brandLink),
-  });
-
-  await sendMessage(deliveryContext, "guest", {
-    from: `"${deliveryContext.fromName}" <${deliveryContext.fromAddress}>`,
+    html: buildAdminHtml(inquiry, mailSettings.brandLink),
+  };
+  const guestMessage = {
+    from: `"${mailSettings.fromName}" <${mailSettings.fromAddress}>`,
     to: inquiry.email,
-    replyTo: deliveryContext.adminRecipients[0],
+    replyTo: mailSettings.adminRecipients[0],
     subject: `We received your Victoria Falls Discovery Tours inquiry`,
     text: buildUserPlainText(inquiry),
-    html: buildUserHtml(inquiry, deliveryContext.brandLink),
-  });
+    html: buildUserHtml(inquiry, mailSettings.brandLink),
+  };
+
+  const deliveryContext = createMailDeliveryContext(mailSettings);
+
+  try {
+    await sendMessage(deliveryContext, "admin", adminMessage);
+
+    try {
+      await sendMessage(deliveryContext, "guest", guestMessage);
+    } catch (error) {
+      console.warn("Guest confirmation email could not be sent", error);
+    }
+
+    return {
+      deliveryMode: deliveryContext.fileOutputDirectory ? ("queued" as const) : ("smtp" as const),
+    };
+  } catch (error) {
+    console.error("SMTP mail delivery failed. Falling back to local queue.", error);
+
+    const fallbackContext = createFileFallbackContext(mailSettings);
+
+    await sendMessage(fallbackContext, "admin", adminMessage);
+
+    try {
+      await sendMessage(fallbackContext, "guest", guestMessage);
+    } catch (fallbackGuestError) {
+      console.warn("Guest confirmation email could not be queued", fallbackGuestError);
+    }
+
+    return { deliveryMode: "queued" as const };
+  }
 }

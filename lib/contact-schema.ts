@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { getContactServiceSelectionOptions } from "@/lib/content";
 import type { ContactInquiry } from "@/lib/types";
 
 export const contactInterestOptions = [
@@ -23,6 +24,7 @@ export const contactInquirySchema = z.object({
   serviceInterest: z.enum(contactInterestOptions, {
     error: "Please choose a valid service interest.",
   }),
+  serviceSelection: z.string().trim().min(2, "Please choose a specific option."),
   travelDates: z
     .string()
     .trim()
@@ -38,4 +40,14 @@ export const contactInquirySchema = z.object({
     .trim()
     .min(20, "Please include a bit more detail in your message.")
     .max(2000, "Message is too long."),
+}).superRefine((inquiry, context) => {
+  const validOptions = getContactServiceSelectionOptions(inquiry.serviceInterest);
+
+  if (!validOptions.some((option) => option.value === inquiry.serviceSelection)) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Please choose a valid option for the selected service.",
+      path: ["serviceSelection"],
+    });
+  }
 }) satisfies z.ZodType<ContactInquiry>;

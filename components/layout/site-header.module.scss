@@ -204,8 +204,14 @@
 }
 
 .mobileCta {
-  width: 100%;
+  width: 3.2rem;
+  min-width: 3.2rem;
+  padding-inline: 0;
   justify-content: center;
+
+  svg {
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 940px) {
