@@ -21,7 +21,8 @@ type FormState = {
   email: string;
   phone: string;
   serviceInterest: ContactInterest;
-  travelDates: string;
+  arrivalDate: string;
+  departureDate: string;
   guestCount: string;
   message: string;
 };
@@ -31,7 +32,7 @@ type FormFeedback = {
   message: string;
 };
 
-type FieldErrors = Partial<Record<keyof FormState, string>>;
+type FieldErrors = Partial<Record<keyof FormState | "travelDates", string>>;
 
 function createInitialState(
   serviceInterest: ContactInterest,
@@ -42,10 +43,39 @@ function createInitialState(
     email: "",
     phone: "",
     serviceInterest,
-    travelDates: "",
+    arrivalDate: "",
+    departureDate: "",
     guestCount: "",
     message: initialMessage,
   };
+}
+
+function formatTravelDatesForSubmission(
+  arrivalDate: string,
+  departureDate: string,
+) {
+  if (!arrivalDate && !departureDate) {
+    return "";
+  }
+
+  const formatter = new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
+  const formatValue = (value: string) =>
+    formatter.format(new Date(`${value}T00:00:00`));
+
+  if (arrivalDate && departureDate) {
+    return `${formatValue(arrivalDate)} to ${formatValue(departureDate)}`;
+  }
+
+  if (arrivalDate) {
+    return `From ${formatValue(arrivalDate)}`;
+  }
+
+  return `Until ${formatValue(departureDate)}`;
 }
 
 export function ContactForm({
@@ -79,6 +109,21 @@ export function ContactForm({
     setFeedback({ kind: "idle", message: "" });
     setFieldErrors({});
 
+    if (
+      form.arrivalDate &&
+      form.departureDate &&
+      form.departureDate < form.arrivalDate
+    ) {
+      setFeedback({
+        kind: "error",
+        message: "Departure date must be the same as or later than the arrival date.",
+      });
+      setFieldErrors({
+        departureDate: "Choose a departure date after the arrival date.",
+      });
+      return;
+    }
+
     startTransition(async () => {
       try {
         const response = await fetch("/api/contact", {
@@ -86,7 +131,18 @@ export function ContactForm({
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(form),
+          body: JSON.stringify({
+            name: form.name,
+            email: form.email,
+            phone: form.phone,
+            serviceInterest: form.serviceInterest,
+            travelDates: formatTravelDatesForSubmission(
+              form.arrivalDate,
+              form.departureDate,
+            ),
+            guestCount: form.guestCount,
+            message: form.message,
+          }),
         });
 
         const result = (await response.json()) as {
@@ -201,34 +257,48 @@ export function ContactForm({
 
       <div className={styles.gridTwo}>
         <label className={styles.field}>
-          <span>Travel dates</span>
+          <span>Arrival date</span>
           <input
-            type="text"
-            name="travelDates"
-            value={form.travelDates}
-            onChange={(event) => updateField("travelDates", event.target.value)}
-            placeholder="e.g. 12-16 July 2026"
-            aria-invalid={Boolean(fieldErrors.travelDates)}
+            type="date"
+            name="arrivalDate"
+            value={form.arrivalDate}
+            onChange={(event) => updateField("arrivalDate", event.target.value)}
+            aria-invalid={Boolean(fieldErrors.arrivalDate || fieldErrors.travelDates)}
           />
-          {fieldErrors.travelDates ? <small>{fieldErrors.travelDates}</small> : null}
+          {fieldErrors.arrivalDate || fieldErrors.travelDates ? (
+            <small>{fieldErrors.arrivalDate ?? fieldErrors.travelDates}</small>
+          ) : null}
         </label>
 
         <label className={styles.field}>
-          <span>Guest count</span>
+          <span>Departure date</span>
           <input
-            type="number"
-            name="guestCount"
-            value={form.guestCount}
-            onChange={(event) => updateField("guestCount", event.target.value)}
-            min="1"
-            max="50"
-            inputMode="numeric"
-            placeholder="2"
-            aria-invalid={Boolean(fieldErrors.guestCount)}
+            type="date"
+            name="departureDate"
+            value={form.departureDate}
+            onChange={(event) => updateField("departureDate", event.target.value)}
+            min={form.arrivalDate || undefined}
+            aria-invalid={Boolean(fieldErrors.departureDate || fieldErrors.travelDates)}
           />
-          {fieldErrors.guestCount ? <small>{fieldErrors.guestCount}</small> : null}
+          {fieldErrors.departureDate ? <small>{fieldErrors.departureDate}</small> : null}
         </label>
       </div>
+
+      <label className={styles.field}>
+        <span>Guest count</span>
+        <input
+          type="number"
+          name="guestCount"
+          value={form.guestCount}
+          onChange={(event) => updateField("guestCount", event.target.value)}
+          min="1"
+          max="50"
+          inputMode="numeric"
+          placeholder="2"
+          aria-invalid={Boolean(fieldErrors.guestCount)}
+        />
+        {fieldErrors.guestCount ? <small>{fieldErrors.guestCount}</small> : null}
+      </label>
 
       <label className={styles.field}>
         <span>Message</span>
