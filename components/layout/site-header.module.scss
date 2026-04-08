@@ -22,15 +22,15 @@
   background:
     repeating-linear-gradient(
       120deg,
-      rgba(143, 226, 255, 0.16) 0 1px,
-      transparent 1px 26px
+      rgba(255, 255, 255, 0.3) 0 1px,
+      transparent 1px 28px
     ),
     repeating-linear-gradient(
       300deg,
-      rgba(255, 122, 182, 0.11) 0 1px,
-      transparent 1px 32px
+      rgba(143, 226, 255, 0.14) 0 1px,
+      transparent 1px 34px
     );
-  opacity: 0.42;
+  opacity: 0.26;
   animation: headerLines 22s linear infinite;
 }
 

@@ -20,15 +20,15 @@
   background:
     repeating-linear-gradient(
       125deg,
-      rgba(143, 226, 255, 0.16) 0 1px,
-      transparent 1px 28px
+      rgba(255, 255, 255, 0.28) 0 1px,
+      transparent 1px 30px
     ),
     repeating-linear-gradient(
       305deg,
-      rgba(255, 122, 182, 0.11) 0 1px,
-      transparent 1px 34px
+      rgba(143, 226, 255, 0.16) 0 1px,
+      transparent 1px 36px
     );
-  opacity: 0.42;
+  opacity: 0.24;
   animation: footerLines 24s linear infinite;
 }
 
