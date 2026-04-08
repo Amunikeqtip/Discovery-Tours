@@ -7,6 +7,15 @@ import type {
   ServiceSummary,
 } from "@/lib/types";
 
+const photoLibrary = {
+  fallsHero: "/photos/victoria-falls-hero.jpg",
+  transferRoad: "/photos/transfers-safari-road.jpg",
+  transferCar: "/photos/transfers-hotel-car.jpg",
+  staySuite: "/photos/accommodation-suite.jpg",
+  stayLounge: "/photos/accommodation-lounge.jpg",
+  rafting: "/photos/activities-rafting-zambezi.jpg",
+} as const;
+
 export const siteNavigation = [
   { href: "/", label: "Home" },
   { href: "/packages", label: "Packages" },
@@ -41,9 +50,9 @@ export const serviceSummaries: ServiceSummary[] = [
       "Private movement designed around guest comfort",
     ],
     visual: {
-      src: "/placeholders/transfers.svg",
-      alt: "Abstract placeholder visual for transfer services",
-      caption: "A dedicated image slot for future transport and arrival photography.",
+      src: photoLibrary.transferRoad,
+      alt: "Safari transfer vehicle traveling along a destination road",
+      caption: "Real transfer-style imagery now previews the movement and welcome experience.",
     },
   },
   {
@@ -59,9 +68,9 @@ export const serviceSummaries: ServiceSummary[] = [
       "Strong visual storytelling space for each property later on",
     ],
     visual: {
-      src: "/placeholders/accommodation.svg",
-      alt: "Abstract placeholder visual for accommodation services",
-      caption: "A gallery-ready area for future lodge and hospitality imagery.",
+      src: photoLibrary.staySuite,
+      alt: "Elegant accommodation suite styled for premium hospitality",
+      caption: "Accommodation cards now use hospitality imagery that fits the brand direction.",
     },
   },
   {
@@ -77,9 +86,9 @@ export const serviceSummaries: ServiceSummary[] = [
       "Flexible options that can pair with stays and transfers",
     ],
     visual: {
-      src: "/placeholders/activities.svg",
-      alt: "Abstract placeholder visual for activities",
-      caption: "A visual placeholder for future excursion and destination photography.",
+      src: photoLibrary.rafting,
+      alt: "Rafting activity on the Zambezi near Victoria Falls",
+      caption: "Activities now preview real adventure imagery tied to the destination.",
     },
   },
 ];
@@ -142,19 +151,19 @@ export const packageItems: PackageItem[] = [
     duration: "Single transfer service",
     gallery: [
       {
-        src: "/placeholders/transfers.svg",
-        alt: "Airport arrival transfer placeholder image",
-        caption: "Arrival-day welcome and airport meet-and-transfer flow.",
+        src: photoLibrary.transferCar,
+        alt: "Vehicle prepared for guest airport pickup and arrival support",
+        caption: "Arrival-day pickup imagery that suits airport and hotel transfer enquiries.",
       },
       {
-        src: "/placeholders/transfers.svg",
-        alt: "Departure transfer coordination placeholder image",
-        caption: "Departure support timed around onward flights.",
+        src: photoLibrary.transferRoad,
+        alt: "Transfer vehicle on route for a smooth guest connection",
+        caption: "Departure support remains paced around onward travel timing.",
       },
       {
-        src: "/placeholders/transfers.svg",
-        alt: "Guest comfort transfer placeholder image",
-        caption: "Comfort-led vehicle presentation and direct routing.",
+        src: photoLibrary.fallsHero,
+        alt: "Victoria Falls destination view representing arrival into the region",
+        caption: "The destination backdrop reinforces the welcome-to-Victoria-Falls feel.",
       },
     ],
     overview: [
@@ -208,19 +217,19 @@ export const packageItems: PackageItem[] = [
     duration: "Point-to-point coordination",
     gallery: [
       {
-        src: "/placeholders/transfers.svg",
-        alt: "Cross-border route placeholder image",
-        caption: "Border-linked movement for multi-stop travel days.",
+        src: photoLibrary.transferRoad,
+        alt: "Road transfer image suited to border and multi-stop routing",
+        caption: "Road-based movement visuals support border-linked and multi-stop travel days.",
       },
       {
-        src: "/placeholders/transfers.svg",
-        alt: "Transfer timing placeholder image",
-        caption: "Pickup windows aligned with transition-heavy itineraries.",
+        src: photoLibrary.transferCar,
+        alt: "Vehicle image representing coordinated pickup timing",
+        caption: "Pickup windows are aligned with transition-heavy itineraries.",
       },
       {
-        src: "/placeholders/transfers.svg",
-        alt: "Support coordination placeholder image",
-        caption: "Designed for guests who need easy movement between locations.",
+        src: photoLibrary.fallsHero,
+        alt: "Victoria Falls scene used to ground the package in the destination",
+        caption: "The scenic destination view adds context to the cross-location journey.",
       },
     ],
     overview: [
@@ -274,19 +283,19 @@ export const packageItems: PackageItem[] = [
     duration: "Flexible transfer window",
     gallery: [
       {
-        src: "/placeholders/transfers.svg",
-        alt: "Private lodge transfer placeholder image",
+        src: photoLibrary.transferCar,
+        alt: "Private transfer vehicle suited to lodge and hotel connections",
         caption: "Private movement between lodge, hotel, and activity points.",
       },
       {
-        src: "/placeholders/transfers.svg",
-        alt: "Premium routing placeholder image",
+        src: photoLibrary.transferRoad,
+        alt: "Transfer route image representing direct premium travel",
         caption: "A cleaner transfer layer for premium itineraries.",
       },
       {
-        src: "/placeholders/transfers.svg",
-        alt: "Flexible schedule transfer placeholder image",
-        caption: "Useful when same-day plans require smoother transitions.",
+        src: photoLibrary.stayLounge,
+        alt: "Hospitality space supporting premium itinerary transitions",
+        caption: "Useful when same-day plans require smoother lodge-to-activity transitions.",
       },
     ],
     overview: [
@@ -340,19 +349,19 @@ export const packageItems: PackageItem[] = [
     duration: "Multi-night stay planning",
     gallery: [
       {
-        src: "/placeholders/accommodation.svg",
-        alt: "Luxury accommodation placeholder image",
-        caption: "A premium riverside stay concept with polished atmosphere.",
+        src: photoLibrary.staySuite,
+        alt: "Luxury suite styled for a refined riverside stay feel",
+        caption: "A premium stay concept with polished atmosphere and strong hospitality appeal.",
       },
       {
-        src: "/placeholders/accommodation.svg",
-        alt: "Property storytelling placeholder image",
-        caption: "Space for room, exterior, and hospitality-focused imagery.",
+        src: photoLibrary.stayLounge,
+        alt: "Lounge area for lodge-style property storytelling",
+        caption: "Room, lounge, and hospitality imagery now give the stay more substance.",
       },
       {
-        src: "/placeholders/accommodation.svg",
-        alt: "Refined stay placeholder image",
-        caption: "Ideal for guests seeking comfort, location, and elevated mood.",
+        src: photoLibrary.fallsHero,
+        alt: "Victoria Falls landscape supporting premium destination atmosphere",
+        caption: "Ideal for guests seeking comfort, location, and elevated destination mood.",
       },
     ],
     overview: [
@@ -406,18 +415,18 @@ export const packageItems: PackageItem[] = [
     duration: "Flexible stay length",
     gallery: [
       {
-        src: "/placeholders/accommodation.svg",
-        alt: "Family lodge placeholder image",
+        src: photoLibrary.stayLounge,
+        alt: "Comfortable lounge suited to a family-friendly lodge experience",
         caption: "A stay structure built around practical comfort for families.",
       },
       {
-        src: "/placeholders/accommodation.svg",
-        alt: "Family hospitality placeholder image",
+        src: photoLibrary.staySuite,
+        alt: "Accommodation suite representing family travel comfort",
         caption: "Designed to pair well with transfers and day experiences.",
       },
       {
-        src: "/placeholders/accommodation.svg",
-        alt: "Comfort-led stay placeholder image",
+        src: photoLibrary.transferCar,
+        alt: "Arrival vehicle representing easy multi-guest travel planning",
         caption: "Clear hospitality messaging for multi-guest planning.",
       },
     ],
@@ -472,19 +481,19 @@ export const packageItems: PackageItem[] = [
     duration: "Tailored multi-night stay",
     gallery: [
       {
-        src: "/placeholders/accommodation.svg",
-        alt: "Romantic retreat placeholder image",
+        src: photoLibrary.staySuite,
+        alt: "Elegant suite for a romantic retreat stay",
         caption: "A private, atmosphere-led stay concept for couples.",
       },
       {
-        src: "/placeholders/accommodation.svg",
-        alt: "Couples package placeholder image",
+        src: photoLibrary.fallsHero,
+        alt: "Victoria Falls scenic view suited to romantic destination travel",
         caption: "Designed for memorable multi-night travel moments.",
       },
       {
-        src: "/placeholders/accommodation.svg",
-        alt: "Honeymoon storytelling placeholder image",
-        caption: "Ready for future honeymoon and celebration imagery.",
+        src: photoLibrary.stayLounge,
+        alt: "Lounge setting with premium hospitality feel for celebration travel",
+        caption: "Hospitality imagery helps sell honeymoon and celebration pacing now.",
       },
     ],
     overview: [
@@ -538,19 +547,19 @@ export const packageItems: PackageItem[] = [
     duration: "Half-day to full-day",
     gallery: [
       {
-        src: "/placeholders/activities.svg",
-        alt: "Signature falls experience placeholder image",
-        caption: "A flagship destination experience built around iconic moments.",
+        src: photoLibrary.fallsHero,
+        alt: "Wide Victoria Falls landscape for a signature destination experience",
+        caption: "A flagship destination experience built around iconic Victoria Falls moments.",
       },
       {
-        src: "/placeholders/activities.svg",
-        alt: "Guided activity placeholder image",
-        caption: "Structured for travelers who want guided context with sightseeing.",
+        src: photoLibrary.rafting,
+        alt: "Rafting scene representing guided adventure options near Victoria Falls",
+        caption: "Structured for travelers who want guided context with sightseeing and adventure.",
       },
       {
-        src: "/placeholders/activities.svg",
-        alt: "Scenic activity placeholder image",
-        caption: "A strong hero package with room for future scenic imagery.",
+        src: photoLibrary.transferRoad,
+        alt: "Destination road scene supporting broader Victoria Falls excursion planning",
+        caption: "A strong hero package supported by real scenic travel imagery.",
       },
     ],
     overview: [
@@ -604,18 +613,18 @@ export const packageItems: PackageItem[] = [
     duration: "Evening experience",
     gallery: [
       {
-        src: "/placeholders/activities.svg",
-        alt: "Sunset cruise placeholder image",
-        caption: "A scenic evening experience with premium leisure appeal.",
+        src: photoLibrary.fallsHero,
+        alt: "Victoria Falls scenery representing premium evening leisure around the destination",
+        caption: "A scenic experience image that supports premium leisure positioning.",
       },
       {
-        src: "/placeholders/activities.svg",
-        alt: "Dining experience placeholder image",
+        src: photoLibrary.stayLounge,
+        alt: "Lounge-style hospitality image suited to dining and cruise add-ons",
         caption: "Combines atmosphere, pacing, and hospitality-led moments.",
       },
       {
-        src: "/placeholders/activities.svg",
-        alt: "Celebratory evening placeholder image",
+        src: photoLibrary.staySuite,
+        alt: "Premium suite image supporting celebration and couples travel",
         caption: "A strong add-on for couples and celebratory travel.",
       },
     ],
@@ -670,18 +679,18 @@ export const packageItems: PackageItem[] = [
     duration: "Multi-part day experience",
     gallery: [
       {
-        src: "/placeholders/activities.svg",
-        alt: "Adventure pairing placeholder image",
-        caption: "A larger-scope experience combining views and guided discovery.",
+        src: photoLibrary.rafting,
+        alt: "Rafting image for an adventure-focused Victoria Falls package",
+        caption: "A larger-scope experience combining energy, views, and guided discovery.",
       },
       {
-        src: "/placeholders/activities.svg",
-        alt: "Aerial experience placeholder image",
+        src: photoLibrary.fallsHero,
+        alt: "Victoria Falls panorama supporting aerial and scenic adventure positioning",
         caption: "Adventure-forward positioning with premium scenic value.",
       },
       {
-        src: "/placeholders/activities.svg",
-        alt: "Guided discovery placeholder image",
+        src: photoLibrary.transferRoad,
+        alt: "Travel image supporting guided movement through a larger day itinerary",
         caption: "Built for travelers wanting energy, scenery, and structure.",
       },
     ],

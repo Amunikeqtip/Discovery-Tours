@@ -42,10 +42,10 @@ export default function AboutPage() {
           </div>
           <div className={styles.heroVisual}>
             <ImageCard
-              src="/placeholders/accommodation.svg"
-              alt="Illustrated placeholder for future hospitality photography"
+              src="/photos/accommodation-suite.jpg"
+              alt="Luxury hospitality suite representing the brand's accommodation standard"
               label="Brand story visual"
-              caption="A structured image block ready for real lodge, transfer, or destination photography."
+              caption="A real hospitality image now supports the service-provider story and premium tone."
             />
           </div>
         </div>
