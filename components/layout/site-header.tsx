@@ -79,6 +79,7 @@ export function SiteHeader() {
                     href={item.href}
                     className={`${styles.mobileLink} ${isActive ? styles.mobileLinkActive : ""}`}
                     aria-current={isActive ? "page" : undefined}
+                    onClick={() => setIsMenuOpen(false)}
                   >
                     <span>{item.label}</span>
                     <FaArrowRightLong aria-hidden="true" />
@@ -86,7 +87,7 @@ export function SiteHeader() {
                 );
               })}
             </nav>
-            <Link href="/contact" className={`buttonPrimary ${styles.mobileCta}`}>
+            <Link href="/contact" className={`buttonPrimary ${styles.mobileCta}`} onClick={() => setIsMenuOpen(false)}>
               Start An Inquiry
               <FaArrowRightLong aria-hidden="true" />
             </Link>
