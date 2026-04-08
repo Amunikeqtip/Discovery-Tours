@@ -5,6 +5,10 @@ import { SectionHeading } from "@/components/common/section-heading";
 import { aboutSections, aboutValues, trustHighlights } from "@/lib/content";
 import styles from "./page.module.scss";
 
+const trustIcons = ["pi pi-check-circle", "pi pi-briefcase", "pi pi-chart-line"];
+
+const valueIcons = ["pi pi-th-large", "pi pi-images", "pi pi-bolt"];
+
 export const metadata: Metadata = {
   title: "About",
   description:
@@ -28,8 +32,9 @@ export default function AboutPage() {
               centers on clarity, comfort, and polished support.
             </p>
             <div className="pillList">
-              {trustHighlights.map((item) => (
+              {trustHighlights.map((item, index) => (
                 <span key={item.title} className="pill">
+                  <i className={trustIcons[index] ?? "pi pi-check-circle"} aria-hidden="true" />
                   {item.title}
                 </span>
               ))}
@@ -75,8 +80,9 @@ export default function AboutPage() {
             description="Rather than overwhelming visitors with clutter, the site explains how planning works and why the service model is built for ease."
           />
           <div className={styles.valuesGrid}>
-            {aboutValues.map((value) => (
+            {aboutValues.map((value, index) => (
               <article key={value.title} className={styles.valueCard}>
+                <i className={`${valueIcons[index] ?? "pi pi-check-circle"} ${styles.valueIcon}`} aria-hidden="true" />
                 <h2>{value.title}</h2>
                 <p>{value.description}</p>
               </article>

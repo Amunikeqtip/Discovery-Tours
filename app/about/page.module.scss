@@ -62,8 +62,11 @@
 }
 
 .valueCard {
+  display: grid;
+  gap: 0.7rem;
+
   h2 {
-    margin: 0 0 0.65rem;
+    margin: 0;
     font-size: 1.2rem;
   }
 
@@ -72,6 +75,17 @@
     color: var(--muted);
     line-height: 1.72;
   }
+}
+
+.valueIcon {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(0, 174, 239, 0.1);
+  color: var(--accent-strong);
 }
 
 .aboutCta {

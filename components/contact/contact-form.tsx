@@ -7,6 +7,12 @@ import styles from "./contact-form.module.scss";
 
 type ContactFormProps = {
   initialInterest: ContactInterest;
+  initialMessage?: string;
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+  submitLabel?: string;
+  footerNote?: string;
 };
 
 type FormState = {
@@ -26,7 +32,10 @@ type FormFeedback = {
 
 type FieldErrors = Partial<Record<keyof FormState, string>>;
 
-function createInitialState(serviceInterest: ContactInterest): FormState {
+function createInitialState(
+  serviceInterest: ContactInterest,
+  initialMessage = "",
+): FormState {
   return {
     name: "",
     email: "",
@@ -34,12 +43,22 @@ function createInitialState(serviceInterest: ContactInterest): FormState {
     serviceInterest,
     travelDates: "",
     guestCount: "",
-    message: "",
+    message: initialMessage,
   };
 }
 
-export function ContactForm({ initialInterest }: ContactFormProps) {
-  const [form, setForm] = useState<FormState>(() => createInitialState(initialInterest));
+export function ContactForm({
+  initialInterest,
+  initialMessage = "",
+  eyebrow = "Inquiry Form",
+  heading = "Send details directly to the admin inbox",
+  description = "Fields are validated server-side before the message is sent through the configured SMTP transport.",
+  submitLabel = "Send Inquiry",
+  footerNote = "SMTP settings remain server-side. No credentials are exposed to the client.",
+}: ContactFormProps) {
+  const [form, setForm] = useState<FormState>(() =>
+    createInitialState(initialInterest, initialMessage),
+  );
   const [feedback, setFeedback] = useState<FormFeedback>({
     kind: "idle",
     message: "",
@@ -91,7 +110,7 @@ export function ContactForm({ initialInterest }: ContactFormProps) {
             result.message ??
             "Your inquiry has been sent. The admin team can now review your request.",
         });
-        setForm(createInitialState(initialInterest));
+        setForm(createInitialState(initialInterest, initialMessage));
       } catch {
         setFeedback({
           kind: "error",
@@ -106,13 +125,10 @@ export function ContactForm({ initialInterest }: ContactFormProps) {
     <form className={styles.form} onSubmit={handleSubmit} noValidate>
       <div className={styles.formHeader}>
         <div>
-          <p className="eyebrow">Inquiry Form</p>
-          <h2>Send details directly to the admin inbox</h2>
+          <p className="eyebrow">{eyebrow}</p>
+          <h2>{heading}</h2>
         </div>
-        <p>
-          Fields are validated server-side before the message is sent through the
-          configured SMTP transport.
-        </p>
+        <p>{description}</p>
       </div>
 
       <div className={styles.gridTwo}>
@@ -238,12 +254,9 @@ export function ContactForm({ initialInterest }: ContactFormProps) {
 
       <div className={styles.actions}>
         <button type="submit" className="buttonPrimary" disabled={isPending}>
-          {isPending ? "Sending Inquiry..." : "Send Inquiry"}
+          {isPending ? "Sending Inquiry..." : submitLabel}
         </button>
-        <p>
-          SMTP settings remain server-side. No credentials are exposed to the
-          client.
-        </p>
+        <p>{footerNote}</p>
       </div>
     </form>
   );

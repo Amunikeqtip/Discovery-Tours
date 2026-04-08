@@ -34,6 +34,8 @@
   border-radius: var(--radius-sm);
   background: rgba(255, 255, 255, 0.88);
   border: 1px solid rgba(0, 174, 239, 0.14);
+  display: grid;
+  gap: 0.65rem;
 
   h2 {
     margin: 0 0 0.55rem;
@@ -45,6 +47,23 @@
     color: var(--muted);
     line-height: 1.65;
   }
+}
+
+.cardIcon,
+.servicePillIcon,
+.journeyIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-strong);
+}
+
+.cardIcon {
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 999px;
+  background: rgba(0, 174, 239, 0.1);
+  font-size: 1rem;
 }
 
 .heroVisual {
@@ -84,6 +103,14 @@
   }
 }
 
+.servicePillIcon {
+  width: 2.2rem;
+  height: 2.2rem;
+  margin-bottom: 0.25rem;
+  border-radius: 999px;
+  background: rgba(0, 174, 239, 0.1);
+}
+
 .servicesGrid {
   display: grid;
   gap: 1.4rem;
@@ -119,10 +146,22 @@
 
   ul {
     margin: 0;
-    padding-left: 1.15rem;
+    padding: 0;
     display: grid;
     gap: 0.5rem;
+    list-style: none;
     color: var(--foreground);
+  }
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+  }
+
+  li i {
+    margin-top: 0.2rem;
+    color: var(--accent-strong);
   }
 }
 
@@ -167,9 +206,21 @@
 
   ul {
     margin: 0;
-    padding-left: 1.1rem;
+    padding: 0;
     display: grid;
     gap: 0.5rem;
+    list-style: none;
+  }
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+  }
+
+  li i {
+    margin-top: 0.2rem;
+    color: var(--accent-strong);
   }
 }
 
@@ -199,6 +250,15 @@
   background: linear-gradient(180deg, rgba(5, 8, 12, 0.96) 0%, rgba(10, 20, 31, 0.92) 100%);
   color: #f7fbff;
   box-shadow: var(--shadow);
+
+  .journeyIcon {
+    width: 2.7rem;
+    height: 2.7rem;
+    border-radius: 999px;
+    background: rgba(143, 226, 255, 0.12);
+    color: #8fe2ff;
+    font-size: 1.05rem;
+  }
 
   span {
     display: inline-flex;

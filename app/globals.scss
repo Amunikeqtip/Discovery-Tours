@@ -154,6 +154,7 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.6rem;
   min-height: 3.3rem;
   padding: 0.95rem 1.4rem;
   border-radius: 999px;
@@ -199,12 +200,8 @@ button {
   color: var(--muted);
 }
 
-.pill::before {
-  content: "";
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 999px;
-  background: var(--accent);
+.pill i {
+  color: var(--accent-strong);
 }
 
 .chipRow {

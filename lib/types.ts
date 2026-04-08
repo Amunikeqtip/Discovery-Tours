@@ -8,6 +8,11 @@ export type VisualAsset = {
   caption: string;
 };
 
+export type PackageDetailSection = {
+  title: string;
+  body: string[];
+};
+
 export type ServiceSummary = {
   category: ServiceCategory;
   title: string;
@@ -26,6 +31,12 @@ export type PackageItem = {
   summary: string;
   highlights: string[];
   duration: string;
+  gallery: VisualAsset[];
+  overview: string[];
+  included: string[];
+  perfectFor: string[];
+  logistics: string[];
+  detailSections: PackageDetailSection[];
 };
 
 export type PackageCategoryDefinition = {

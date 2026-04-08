@@ -9,7 +9,18 @@ import {
   serviceSummaries,
   trustHighlights,
 } from "@/lib/content";
+import type { ServiceCategory } from "@/lib/types";
 import styles from "./page.module.scss";
+
+const serviceIcons: Record<ServiceCategory, string> = {
+  transfers: "pi pi-car",
+  accommodation: "pi pi-home",
+  activities: "pi pi-compass",
+};
+
+const trustIcons = ["pi pi-check-circle", "pi pi-briefcase", "pi pi-chart-line"];
+
+const journeyIcons = ["pi pi-search", "pi pi-comments", "pi pi-send"];
 
 export const metadata: Metadata = {
   title: "Home",
@@ -44,8 +55,9 @@ export default function HomePage() {
               </Link>
             </div>
             <div className={styles.highlightGrid}>
-              {trustHighlights.map((highlight) => (
+              {trustHighlights.map((highlight, index) => (
                 <article key={highlight.title} className={styles.highlightCard}>
+                  <i className={`${trustIcons[index] ?? "pi pi-check-circle"} ${styles.cardIcon}`} aria-hidden="true" />
                   <h2>{highlight.title}</h2>
                   <p>{highlight.description}</p>
                 </article>
@@ -67,6 +79,7 @@ export default function HomePage() {
                   href={`/contact?interest=${service.category}`}
                   className={styles.servicePill}
                 >
+                  <i className={`${serviceIcons[service.category]} ${styles.servicePillIcon}`} aria-hidden="true" />
                   <span>{service.title}</span>
                   <strong>{service.shortLabel}</strong>
                 </Link>
@@ -100,13 +113,17 @@ export default function HomePage() {
                   <p>{service.description}</p>
                   <ul>
                     {service.highlights.map((highlight) => (
-                      <li key={highlight}>{highlight}</li>
+                      <li key={highlight}>
+                        <i className="pi pi-check-circle" aria-hidden="true" />
+                        <span>{highlight}</span>
+                      </li>
                     ))}
                   </ul>
                   <Link
                     href={`/contact?interest=${service.category}`}
                     className="buttonSecondary"
                   >
+                    <i className="pi pi-send" aria-hidden="true" />
                     Ask About {service.shortLabel}
                   </Link>
                 </div>
@@ -134,13 +151,17 @@ export default function HomePage() {
                 <p>{item.summary}</p>
                 <ul>
                   {item.highlights.map((highlight) => (
-                    <li key={highlight}>{highlight}</li>
+                    <li key={highlight}>
+                      <i className="pi pi-check-circle" aria-hidden="true" />
+                      <span>{highlight}</span>
+                    </li>
                   ))}
                 </ul>
                 <Link
                   href={`/contact?interest=${item.category}`}
                   className="buttonSecondary"
                 >
+                  <i className="pi pi-send" aria-hidden="true" />
                   Inquire About This Package
                 </Link>
               </article>
@@ -157,8 +178,9 @@ export default function HomePage() {
             description="The site supports an inquiry-first process that keeps the experience smooth while leaving space for future booking features."
           />
           <div className={styles.journeyGrid}>
-            {homeJourneySteps.map((step) => (
+            {homeJourneySteps.map((step, index) => (
               <article key={step.title} className={styles.journeyCard}>
+                <i className={`${journeyIcons[index] ?? "pi pi-circle"} ${styles.journeyIcon}`} aria-hidden="true" />
                 <span>{step.step}</span>
                 <h3>{step.title}</h3>
                 <p>{step.description}</p>

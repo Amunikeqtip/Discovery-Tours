@@ -50,7 +50,10 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             <h2>Helpful details to include</h2>
             <ul>
               {contactChecklist.map((item) => (
-                <li key={item}>{item}</li>
+                <li key={item}>
+                  <i className="pi pi-check-circle" aria-hidden="true" />
+                  <span>{item}</span>
+                </li>
               ))}
             </ul>
           </aside>
@@ -64,6 +67,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
           </div>
           <div className={styles.infoPanel}>
             <div className={styles.infoCard}>
+              <i className={`pi pi-comments ${styles.infoIcon}`} aria-hidden="true" />
               <p className="eyebrow">Inquiry First</p>
               <h2>Designed for tailored follow-up</h2>
               <p>
@@ -73,6 +77,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
               </p>
             </div>
             <div className={styles.infoCard}>
+              <i className={`pi pi-envelope ${styles.infoIcon}`} aria-hidden="true" />
               <p className="eyebrow">Admin Setup</p>
               <h2>Environment-based mail delivery</h2>
               <p>
