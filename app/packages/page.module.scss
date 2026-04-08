@@ -1,0 +1,64 @@
+.intro {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.categorySection {
+  padding: 2rem 0 2.6rem;
+  border-top: 1px solid rgba(55, 39, 18, 0.1);
+
+  &:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+}
+
+.packageGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.packageCard {
+  display: grid;
+  gap: 0.95rem;
+  padding: 1.4rem;
+  border-radius: var(--radius-md);
+  background: rgba(255, 252, 247, 0.84);
+  border: 1px solid rgba(31, 68, 55, 0.1);
+  box-shadow: var(--shadow);
+
+  h2 {
+    margin: 0;
+    font-size: 1.3rem;
+  }
+
+  p,
+  li {
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.45rem;
+  }
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--accent-strong);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+@media (max-width: 980px) {
+  .packageGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,51 @@
+.footer {
+  padding: 2rem 0 2.5rem;
+  border-top: 1px solid rgba(55, 39, 18, 0.08);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brandBlock {
+  display: grid;
+  gap: 0.4rem;
+
+  p {
+    margin: 0;
+    font-family: var(--font-display), serif;
+    font-size: 1.45rem;
+  }
+
+  span {
+    max-width: 32rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.85rem;
+
+  a {
+    color: var(--muted);
+    font-weight: 700;
+  }
+}
+
+@media (max-width: 768px) {
+  .inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav {
+    justify-content: flex-start;
+  }
+}
