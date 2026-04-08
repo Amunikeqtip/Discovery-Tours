@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { BrandLogo } from "@/components/common/brand-logo";
 import { siteNavigation } from "@/lib/content";
 import styles from "./site-header.module.scss";
 
@@ -12,8 +13,7 @@ export function SiteHeader() {
     <header className={styles.header}>
       <div className={`container ${styles.inner}`}>
         <Link href="/" className={styles.brand}>
-          <span>Victoria Falls</span>
-          <strong>Discovery Tours</strong>
+          <BrandLogo compact />
         </Link>
         <nav aria-label="Primary navigation" className={styles.nav}>
           {siteNavigation.map((item) => {

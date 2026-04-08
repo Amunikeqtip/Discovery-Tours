@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandLogo } from "@/components/common/brand-logo";
 import { siteNavigation } from "@/lib/content";
 import styles from "./site-footer.module.scss";
 
@@ -7,7 +8,7 @@ export function SiteFooter() {
     <footer className={styles.footer}>
       <div className={`container ${styles.inner}`}>
         <div className={styles.brandBlock}>
-          <p>Victoria Falls Discovery Tours</p>
+          <BrandLogo compact />
           <span>
             A premium tourism and hospitality website for transfers,
             accommodation, and activities.

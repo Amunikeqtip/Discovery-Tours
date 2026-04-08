@@ -1,16 +1,16 @@
 :root {
-  --background: #f4ede2;
-  --surface: rgba(255, 251, 245, 0.9);
-  --surface-strong: #fbf6ed;
-  --surface-muted: #efe4d0;
-  --foreground: #1d1a16;
-  --muted: #5d564e;
-  --line: rgba(55, 39, 18, 0.14);
-  --accent: #8a5a2b;
-  --accent-strong: #6d421b;
-  --accent-soft: #d7b17b;
-  --evergreen: #1f4437;
-  --shadow: 0 24px 60px rgba(47, 31, 12, 0.12);
+  --background: #f6fbff;
+  --surface: rgba(255, 255, 255, 0.88);
+  --surface-strong: #ffffff;
+  --surface-muted: #eaf8ff;
+  --foreground: #06090d;
+  --muted: #4f606f;
+  --line: rgba(6, 9, 13, 0.12);
+  --accent: #00aeef;
+  --accent-strong: #008eca;
+  --accent-soft: #8fe2ff;
+  --evergreen: #00aeef;
+  --shadow: 0 24px 60px rgba(7, 17, 28, 0.12);
   --radius-lg: 32px;
   --radius-md: 22px;
   --radius-sm: 16px;
@@ -31,9 +31,9 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at top right, rgba(138, 90, 43, 0.14), transparent 28%),
-    radial-gradient(circle at left 20%, rgba(31, 68, 55, 0.09), transparent 28%),
-    linear-gradient(180deg, #f7f1e8 0%, #f4ede2 46%, #efe4d0 100%);
+    radial-gradient(circle at top right, rgba(0, 174, 239, 0.14), transparent 24%),
+    radial-gradient(circle at left 18%, rgba(7, 17, 28, 0.08), transparent 20%),
+    linear-gradient(180deg, #ffffff 0%, #f6fbff 44%, #edf8ff 100%);
   color: var(--foreground);
   font-family: var(--font-body), sans-serif;
   text-rendering: optimizeLegibility;
@@ -61,11 +61,11 @@ button {
 }
 
 ::selection {
-  background: rgba(138, 90, 43, 0.2);
+  background: rgba(0, 174, 239, 0.22);
 }
 
 :focus-visible {
-  outline: 3px solid rgba(138, 90, 43, 0.36);
+  outline: 3px solid rgba(0, 174, 239, 0.36);
   outline-offset: 3px;
 }
 
@@ -171,14 +171,14 @@ button {
 }
 
 .buttonPrimary {
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
-  color: #fff9f1;
-  box-shadow: 0 18px 38px rgba(109, 66, 27, 0.22);
+  background: linear-gradient(135deg, #05080c 0%, #111c28 100%);
+  color: #f8fdff;
+  box-shadow: 0 18px 38px rgba(0, 174, 239, 0.2);
 }
 
 .buttonSecondary {
-  border-color: rgba(109, 66, 27, 0.18);
-  background: rgba(255, 252, 246, 0.7);
+  border-color: rgba(0, 174, 239, 0.24);
+  background: rgba(255, 255, 255, 0.88);
   color: var(--foreground);
 }
 
@@ -194,8 +194,8 @@ button {
   gap: 0.5rem;
   padding: 0.7rem 0.95rem;
   border-radius: 999px;
-  background: rgba(255, 250, 243, 0.72);
-  border: 1px solid rgba(109, 66, 27, 0.12);
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(0, 174, 239, 0.14);
   color: var(--muted);
 }
 
@@ -219,8 +219,8 @@ button {
   justify-content: center;
   padding: 0.78rem 1rem;
   border-radius: 999px;
-  border: 1px solid rgba(31, 68, 55, 0.12);
-  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid rgba(0, 174, 239, 0.18);
+  background: rgba(255, 255, 255, 0.82);
   color: var(--foreground);
   transition:
     transform 180ms ease,
@@ -229,8 +229,8 @@ button {
 
   &:hover {
     transform: translateY(-2px);
-    border-color: rgba(31, 68, 55, 0.26);
-    background: rgba(255, 255, 255, 0.82);
+    border-color: rgba(0, 174, 239, 0.3);
+    background: rgba(255, 255, 255, 0.96);
   }
 }
 

@@ -60,37 +60,45 @@ export function ContactForm({ initialInterest }: ContactFormProps) {
     setFieldErrors({});
 
     startTransition(async () => {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
+      try {
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        });
 
-      const result = (await response.json()) as {
-        message?: string;
-        fieldErrors?: FieldErrors;
-      };
+        const result = (await response.json()) as {
+          message?: string;
+          fieldErrors?: FieldErrors;
+        };
 
-      if (!response.ok) {
+        if (!response.ok) {
+          setFeedback({
+            kind: "error",
+            message:
+              result.message ??
+              "We could not submit your inquiry. Please review the form and try again.",
+          });
+          setFieldErrors(result.fieldErrors ?? {});
+          return;
+        }
+
+        setFeedback({
+          kind: "success",
+          message:
+            result.message ??
+            "Your inquiry has been sent. The admin team can now review your request.",
+        });
+        setForm(createInitialState(initialInterest));
+      } catch {
         setFeedback({
           kind: "error",
           message:
-            result.message ??
-            "We could not submit your inquiry. Please review the form and try again.",
+            "We could not submit your inquiry right now. Please check your connection and try again.",
         });
-        setFieldErrors(result.fieldErrors ?? {});
-        return;
       }
-
-      setFeedback({
-        kind: "success",
-        message:
-          result.message ??
-          "Your inquiry has been sent. The admin team can now review your request.",
-      });
-      setForm(createInitialState(initialInterest));
     });
   }
 

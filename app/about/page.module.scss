@@ -24,8 +24,8 @@
 .valueCard {
   padding: 1.35rem;
   border-radius: var(--radius-md);
-  background: rgba(255, 252, 247, 0.82);
-  border: 1px solid rgba(55, 39, 18, 0.1);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 174, 239, 0.14);
   box-shadow: var(--shadow);
 }
 
@@ -82,8 +82,8 @@
   justify-content: space-between;
   gap: 1rem;
   border-radius: var(--radius-lg);
-  background: linear-gradient(135deg, rgba(31, 68, 55, 0.94) 0%, rgba(18, 45, 36, 0.92) 100%);
-  color: #f7f1e8;
+  background: linear-gradient(135deg, rgba(5, 8, 12, 0.96) 0%, rgba(10, 20, 31, 0.94) 100%);
+  color: #f7fbff;
   box-shadow: var(--shadow);
 
   h2 {

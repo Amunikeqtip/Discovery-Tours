@@ -40,7 +40,7 @@
     width: 100%;
     padding: 0.95rem 1rem;
     border-radius: 18px;
-    border: 1px solid rgba(55, 39, 18, 0.16);
+    border: 1px solid rgba(0, 174, 239, 0.16);
     background: rgba(255, 255, 255, 0.82);
     color: var(--foreground);
     transition:
@@ -49,8 +49,8 @@
       background-color 180ms ease;
 
     &:focus {
-      border-color: rgba(138, 90, 43, 0.36);
-      box-shadow: 0 0 0 4px rgba(138, 90, 43, 0.08);
+      border-color: rgba(0, 174, 239, 0.36);
+      box-shadow: 0 0 0 4px rgba(0, 174, 239, 0.1);
       outline: none;
       background: #fff;
     }
@@ -73,9 +73,9 @@
 }
 
 .feedbackSuccess {
-  background: rgba(31, 68, 55, 0.1);
-  border: 1px solid rgba(31, 68, 55, 0.22);
-  color: var(--evergreen);
+  background: rgba(0, 174, 239, 0.1);
+  border: 1px solid rgba(0, 174, 239, 0.22);
+  color: var(--accent-strong);
 }
 
 .feedbackError {
