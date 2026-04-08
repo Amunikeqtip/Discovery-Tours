@@ -116,12 +116,6 @@
   background: rgba(0, 174, 239, 0.12);
 }
 
-.cta {
-  white-space: nowrap;
-  min-height: 2.85rem;
-  padding: 0.76rem 1rem;
-}
-
 .mobileMenu {
   position: absolute;
   top: calc(100% + 0.45rem);
@@ -203,17 +197,6 @@
   background: rgba(234, 248, 255, 1);
 }
 
-.mobileCta {
-  width: 3.2rem;
-  min-width: 3.2rem;
-  padding-inline: 0;
-  justify-content: center;
-
-  svg {
-    font-size: 1rem;
-  }
-}
-
 @media (max-width: 940px) {
   .inner {
     flex-wrap: wrap;
@@ -241,8 +224,7 @@
     margin-left: auto;
   }
 
-  .nav,
-  .cta {
+  .nav {
     display: none;
   }
 

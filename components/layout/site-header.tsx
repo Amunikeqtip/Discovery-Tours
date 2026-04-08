@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { FaArrowRightLong, FaBars, FaPaperPlane, FaXmark } from "react-icons/fa6";
+import { FaArrowRightLong, FaBars, FaXmark } from "react-icons/fa6";
 import { usePathname } from "next/navigation";
 import { BrandLogo } from "@/components/common/brand-logo";
 import { siteNavigation } from "@/lib/content";
@@ -48,10 +48,6 @@ export function SiteHeader() {
             );
           })}
         </nav>
-        <Link href="/contact" className={`buttonPrimary ${styles.cta}`}>
-          Start An Inquiry
-          <FaArrowRightLong aria-hidden="true" />
-        </Link>
       </div>
 
       {isMenuOpen ? (
@@ -87,14 +83,6 @@ export function SiteHeader() {
                 );
               })}
             </nav>
-            <Link
-              href="/contact"
-              className={`buttonPrimary ${styles.mobileCta}`}
-              onClick={() => setIsMenuOpen(false)}
-              aria-label="Start An inquiry"
-            >
-              <FaPaperPlane aria-hidden="true" />
-            </Link>
           </div>
         </div>
       ) : null}
