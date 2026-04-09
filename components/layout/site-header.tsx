@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaArrowRightLong, FaBars, FaXmark } from "react-icons/fa6";
 import { usePathname } from "next/navigation";
 import { BrandLogo } from "@/components/common/brand-logo";
@@ -10,11 +10,8 @@ import styles from "./site-header.module.scss";
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  useEffect(() => {
-    setIsMenuOpen(false);
-  }, [pathname]);
+  const [openMenuPathname, setOpenMenuPathname] = useState<string | null>(null);
+  const isMenuOpen = openMenuPathname === pathname;
 
   return (
     <header className={styles.header}>
@@ -27,7 +24,9 @@ export function SiteHeader() {
           className={styles.menuButton}
           aria-expanded={isMenuOpen}
           aria-controls="mobile-navigation"
-          onClick={() => setIsMenuOpen((current) => !current)}
+          onClick={() =>
+            setOpenMenuPathname((current) => (current === pathname ? null : pathname))
+          }
         >
           {isMenuOpen ? <FaXmark aria-hidden="true" /> : <FaBars aria-hidden="true" />}
           <span>{isMenuOpen ? "Close" : "Menu"}</span>
@@ -51,7 +50,7 @@ export function SiteHeader() {
       </div>
 
       {isMenuOpen ? (
-        <div className={styles.mobileMenu} role="presentation" onClick={() => setIsMenuOpen(false)}>
+        <div className={styles.mobileMenu} role="presentation" onClick={() => setOpenMenuPathname(null)}>
           <div
             id="mobile-navigation"
             className={styles.mobilePanel}
@@ -75,7 +74,7 @@ export function SiteHeader() {
                     href={item.href}
                     className={`${styles.mobileLink} ${isActive ? styles.mobileLinkActive : ""}`}
                     aria-current={isActive ? "page" : undefined}
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={() => setOpenMenuPathname(null)}
                   >
                     <span>{item.label}</span>
                     <FaArrowRightLong aria-hidden="true" />

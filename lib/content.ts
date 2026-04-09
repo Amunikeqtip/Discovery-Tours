@@ -1,6 +1,7 @@
 import type {
   AboutSection,
   AboutValue,
+  CompanyProfile,
   ContactInterest,
   PackageCategoryDefinition,
   PackageItem,
@@ -28,6 +29,21 @@ export const categoryLabels = {
   accommodation: "Accommodation",
   activities: "Activities",
 } as const;
+
+export const companyProfile: CompanyProfile = {
+  displayName: "Victoria Falls Discovery Tours",
+  tagline: "Curated stays, transfers, and experiences across Victoria Falls.",
+  brochureIntro:
+    "Victoria Falls Discovery Tours helps guests move smoothly, stay comfortably, and experience the destination with clear planning support and warm hospitality.",
+  address: "Victoria Falls, Zimbabwe",
+  website: "https://discovery-tours.vercel.app/",
+  inquiryEmail: "tedwell@outlook.com",
+  phoneNumbers: ["+263789276807", "+263774003861"],
+  whatsappNumbers: ["+263789276807", "+263774003861"],
+  bookingNote:
+    "Rates and availability remain subject to confirmation at the time of enquiry. Final booking guidance is shared directly by the admin team.",
+  logoPath: "/brand/discovery.png",
+};
 
 export const contactInterestLabels: Record<ContactInterest, string> = {
   transfers: "Transfers",
@@ -141,6 +157,12 @@ export const packageItems: PackageItem[] = [
     category: "transfers",
     categoryLabel: categoryLabels.transfers,
     title: "Airport Arrival & Departure Transfer",
+    pricing: {
+      amount: null,
+      currency: "USD",
+      label: "Price on request",
+      notes: "Quoted as a private transfer service based on route and guest count.",
+    },
     summary:
       "A polished transfer option for guests who want a seamless welcome into their trip and a well-managed departure at the end of it.",
     highlights: [
@@ -207,6 +229,12 @@ export const packageItems: PackageItem[] = [
     category: "transfers",
     categoryLabel: categoryLabels.transfers,
     title: "Cross-Border Shuttle Support",
+    pricing: {
+      amount: null,
+      currency: "USD",
+      label: "Price on request",
+      notes: "Quoted per route and border movement requirements.",
+    },
     summary:
       "A practical option for guests who need coordinated movement between border points, accommodation, and onward experiences.",
     highlights: [
@@ -273,6 +301,12 @@ export const packageItems: PackageItem[] = [
     category: "transfers",
     categoryLabel: categoryLabels.transfers,
     title: "Private Lodge Connection Transfer",
+    pricing: {
+      amount: null,
+      currency: "USD",
+      label: "Price on request",
+      notes: "Quoted according to lodge location, timing, and transfer distance.",
+    },
     summary:
       "A comfort-led transfer service between lodges, hotels, and scheduled activities for guests who prefer direct movement.",
     highlights: [
@@ -339,6 +373,12 @@ export const packageItems: PackageItem[] = [
     category: "accommodation",
     categoryLabel: categoryLabels.accommodation,
     title: "Riverside Luxury Stay Curation",
+    pricing: {
+      amount: null,
+      currency: "USD",
+      label: "Price on request",
+      notes: "Quoted per room, per night, subject to season and property availability.",
+    },
     summary:
       "A hospitality-forward accommodation concept for travellers seeking elegant surroundings and strong destination atmosphere.",
     highlights: [
@@ -405,6 +445,12 @@ export const packageItems: PackageItem[] = [
     category: "accommodation",
     categoryLabel: categoryLabels.accommodation,
     title: "Family-Friendly Lodge Match",
+    pricing: {
+      amount: null,
+      currency: "USD",
+      label: "Price on request",
+      notes: "Quoted per stay based on room mix, ages of guests, and travel dates.",
+    },
     summary:
       "An accommodation package designed for guests who want comfort, ease, and a practical stay setup for family travel.",
     highlights: [
@@ -471,6 +517,12 @@ export const packageItems: PackageItem[] = [
     category: "accommodation",
     categoryLabel: categoryLabels.accommodation,
     title: "Romantic Retreat Stay",
+    pricing: {
+      amount: null,
+      currency: "USD",
+      label: "Price on request",
+      notes: "Quoted per room package, tailored to stay length and celebration add-ons.",
+    },
     summary:
       "A curated stay concept suited to couples who want privacy, atmosphere, and a travel experience that feels intentionally paced.",
     highlights: [
@@ -537,6 +589,12 @@ export const packageItems: PackageItem[] = [
     category: "activities",
     categoryLabel: categoryLabels.activities,
     title: "Signature Falls Day Experience",
+    pricing: {
+      amount: null,
+      currency: "USD",
+      label: "Price on request",
+      notes: "Quoted per guest, depending on final activity inclusions and transfers.",
+    },
     summary:
       "A flagship activity concept for guests who want a memorable first look at Victoria Falls with guided support and strong destination context.",
     highlights: [
@@ -603,6 +661,12 @@ export const packageItems: PackageItem[] = [
     category: "activities",
     categoryLabel: categoryLabels.activities,
     title: "Sunset Cruise & Dining Combination",
+    pricing: {
+      amount: null,
+      currency: "USD",
+      label: "Price on request",
+      notes: "Quoted per guest and adjusted to cruise tier and dining add-ons.",
+    },
     summary:
       "A relaxed premium add-on for guests who want scenic evening pacing, polished hospitality, and a memorable atmosphere.",
     highlights: [
@@ -669,6 +733,12 @@ export const packageItems: PackageItem[] = [
     category: "activities",
     categoryLabel: categoryLabels.activities,
     title: "Aerial & Guided Adventure Pairing",
+    pricing: {
+      amount: null,
+      currency: "USD",
+      label: "Price on request",
+      notes: "Quoted per guest, based on selected aerial option and guided inclusions.",
+    },
     summary:
       "An activity concept for travellers who want a bigger-scope destination moment with energy, views, and guided discovery combined.",
     highlights: [
@@ -931,6 +1001,18 @@ export const contactChecklist = [
   "How many guests will be traveling",
   "Any comfort level, activity, or accommodation preferences",
 ];
+
+export function formatPackagePrice(item: PackageItem) {
+  if (typeof item.pricing.amount === "number") {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: item.pricing.currency,
+      maximumFractionDigits: 0,
+    }).format(item.pricing.amount);
+  }
+
+  return item.pricing.label ?? "";
+}
 
 export function getPackageById(id: string) {
   return packageItems.find((item) => item.id === id);

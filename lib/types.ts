@@ -2,6 +2,13 @@ export type ServiceCategory = "transfers" | "accommodation" | "activities";
 
 export type ContactInterest = ServiceCategory | "custom-itinerary";
 
+export type PackagePricing = {
+  amount: number | null;
+  currency: string;
+  label?: string;
+  notes?: string;
+};
+
 export type VisualAsset = {
   src: string;
   alt: string;
@@ -28,6 +35,7 @@ export type PackageItem = {
   category: ServiceCategory;
   categoryLabel: string;
   title: string;
+  pricing: PackagePricing;
   summary: string;
   highlights: string[];
   duration: string;
@@ -55,6 +63,25 @@ export type AboutSection = {
 export type AboutValue = {
   title: string;
   description: string;
+};
+
+export type CompanyProfile = {
+  displayName: string;
+  tagline: string;
+  brochureIntro: string;
+  address: string;
+  website: string;
+  inquiryEmail: string;
+  phoneNumbers: string[];
+  whatsappNumbers: string[];
+  bookingNote: string;
+  logoPath: string;
+};
+
+export type GeneratedMailAttachment = {
+  filename: string;
+  contentType: string;
+  content: Buffer;
 };
 
 export type ContactInquiry = {

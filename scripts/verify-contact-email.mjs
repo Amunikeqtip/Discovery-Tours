@@ -94,18 +94,44 @@ try {
   const adminHtmlFile = generatedFiles.find(
     (fileName) => fileName.includes("-admin-") && fileName.endsWith(".html"),
   );
+  const guestHtmlFile = generatedFiles.find(
+    (fileName) => fileName.includes("-guest-") && fileName.endsWith(".html"),
+  );
+  const guestJsonFile = generatedFiles.find(
+    (fileName) => fileName.includes("-guest-") && fileName.endsWith(".json"),
+  );
+  const pdfFile = generatedFiles.find((fileName) => fileName.endsWith(".pdf"));
 
   if (!adminHtmlFile) {
     console.error("Admin HTML preview was not generated in .mail-drop.");
     process.exit(1);
   }
 
+  if (!guestHtmlFile || !guestJsonFile) {
+    console.error("Guest preview files were not generated in .mail-drop.");
+    process.exit(1);
+  }
+
+  if (!pdfFile) {
+    console.error("Guest brochure PDF was not generated in .mail-drop.");
+    process.exit(1);
+  }
+
   const adminHtml = readFileSync(resolve(outputDirectory, adminHtmlFile), "utf8");
+  const guestHtml = readFileSync(resolve(outputDirectory, guestHtmlFile), "utf8");
+  const guestJson = JSON.parse(
+    readFileSync(resolve(outputDirectory, guestJsonFile), "utf8"),
+  );
+  const pdfBuffer = readFileSync(resolve(outputDirectory, pdfFile));
   const expectedSnippets = [
     "Admin Inquiry Alert",
+    "Victoria Falls Discovery Tours",
     payload.name,
     payload.email,
     payload.message,
+    "Suggested reply",
+    "Reply with template",
+    "mailto:guest%40example.com",
   ];
 
   for (const snippet of expectedSnippets) {
@@ -113,6 +139,35 @@ try {
       console.error(`Admin preview is missing expected content: ${snippet}`);
       process.exit(1);
     }
+  }
+
+  const guestSnippets = [
+    "Inquiry Received",
+    "A brochure is attached",
+    "Victoria Falls Discovery Tours",
+    payload.name,
+  ];
+
+  for (const snippet of guestSnippets) {
+    if (!guestHtml.includes(snippet)) {
+      console.error(`Guest preview is missing expected content: ${snippet}`);
+      process.exit(1);
+    }
+  }
+
+  const brochureAttachment = guestJson.attachments?.find(
+    (attachment) =>
+      attachment.filename === "victoria-falls-discovery-tours-brochure.pdf",
+  );
+
+  if (!brochureAttachment?.savedAs) {
+    console.error("Guest preview JSON is missing the brochure attachment record.");
+    process.exit(1);
+  }
+
+  if (!pdfBuffer.subarray(0, 4).equals(Buffer.from("%PDF"))) {
+    console.error("Generated brochure file is not a valid PDF.");
+    process.exit(1);
   }
 
   console.log("Contact email verification passed.");
