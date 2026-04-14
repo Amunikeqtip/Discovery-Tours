@@ -59,15 +59,14 @@
 .menuButton {
   display: none;
   align-items: center;
-  gap: 0.55rem;
-  min-height: 2.85rem;
-  padding: 0.72rem 0.95rem;
+  justify-content: center;
+  width: 2.85rem;
+  height: 2.85rem;
+  padding: 0;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: var(--surface);
   color: var(--foreground);
-  font-weight: 700;
-  font-size: 0.95rem;
   box-shadow: var(--shadow);
   transition:
     transform 180ms ease,
@@ -88,15 +87,14 @@
 .themeButton {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
-  min-height: 2.85rem;
-  padding: 0.72rem 0.95rem;
+  justify-content: center;
+  width: 2.85rem;
+  height: 2.85rem;
+  padding: 0;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: var(--surface);
   color: var(--foreground);
-  font-weight: 700;
-  font-size: 0.95rem;
   box-shadow: var(--shadow);
   transition:
     transform 180ms ease,
@@ -259,10 +257,6 @@
   .actions {
     gap: 0.45rem;
     margin-left: auto;
-  }
-
-  .themeButton {
-    padding-inline: 0.8rem;
   }
 
   .menuButton {

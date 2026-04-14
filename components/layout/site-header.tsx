@@ -53,7 +53,6 @@ export function SiteHeader() {
             onClick={toggleTheme}
           >
             {isBlackTheme ? <FaSun aria-hidden="true" /> : <FaMoon aria-hidden="true" />}
-            <span>{isBlackTheme ? "White" : "Black"}</span>
           </button>
           <button
             type="button"
@@ -65,7 +64,6 @@ export function SiteHeader() {
             }
           >
             {isMenuOpen ? <FaXmark aria-hidden="true" /> : <FaBars aria-hidden="true" />}
-            <span>{isMenuOpen ? "Close" : "Menu"}</span>
           </button>
         </div>
       </div>
