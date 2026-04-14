@@ -18,8 +18,8 @@
   padding: 1rem 1.1rem;
   width: fit-content;
   border-radius: calc(var(--radius-md) + 6px);
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(0, 174, 239, 0.18);
+  background: var(--surface);
+  border: 1px solid var(--line);
   box-shadow: var(--shadow);
 }
 
@@ -32,8 +32,8 @@
 .highlightCard {
   padding: 1.1rem 1.15rem;
   border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(0, 174, 239, 0.14);
+  background: var(--surface);
+  border: 1px solid var(--line);
   display: grid;
   gap: 0.65rem;
 
@@ -79,15 +79,15 @@
   gap: 0.15rem;
   padding: 1rem;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(0, 174, 239, 0.14);
-  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--line);
+  background: var(--surface);
   transition:
     transform 180ms ease,
     background-color 180ms ease;
 
   &:hover {
     transform: translateY(-2px);
-    background: rgba(234, 248, 255, 0.96);
+    background: var(--surface-strong);
   }
 
   span {
@@ -123,8 +123,8 @@
   gap: 1.4rem;
   padding: 1.3rem;
   border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(0, 174, 239, 0.14);
+  background: var(--surface);
+  border: 1px solid var(--line);
   box-shadow: var(--shadow);
 }
 
@@ -189,8 +189,8 @@
   gap: 1rem;
   padding: 1.35rem;
   border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(0, 174, 239, 0.14);
+  background: var(--surface);
+  border: 1px solid var(--line);
   box-shadow: var(--shadow);
 
   h3 {
@@ -246,8 +246,8 @@
 .journeyCard {
   padding: 1.35rem;
   border-radius: var(--radius-md);
-  background: linear-gradient(180deg, rgba(5, 8, 12, 0.96) 0%, rgba(10, 20, 31, 0.92) 100%);
-  color: #f7fbff;
+  background: var(--contrast-panel-bg);
+  color: var(--contrast-panel-fg);
   box-shadow: var(--shadow);
 
   .journeyIcon {
@@ -261,7 +261,7 @@
     font-size: 0.84rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: rgba(143, 226, 255, 0.82);
+    color: var(--accent-strong);
   }
 
   h3 {
@@ -271,7 +271,7 @@
 
   p {
     margin: 0;
-    color: rgba(247, 251, 255, 0.82);
+    color: var(--contrast-panel-muted);
     line-height: 1.7;
   }
 }
@@ -284,8 +284,9 @@
   justify-content: space-between;
   gap: 1rem;
   border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(0, 174, 239, 0.16);
+  background: var(--contrast-panel-bg);
+  border: 1px solid var(--contrast-panel-line);
+  color: var(--contrast-panel-fg);
   box-shadow: var(--shadow);
 
   h2 {

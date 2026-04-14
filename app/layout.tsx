@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Source_Sans_3 } from "next/font/google";
+import { FloatingContactActions } from "@/components/layout/floating-contact-actions";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { THEME_STORAGE_KEY, ThemeProvider } from "@/components/layout/theme-provider";
 import "./globals.scss";
 
 const displayFont = Cormorant_Garamond({
@@ -57,18 +59,31 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${displayFont.variable} ${bodyFont.variable}`}>
+    <html
+      lang="en"
+      className={`${displayFont.variable} ${bodyFont.variable}`}
+      suppressHydrationWarning
+      data-theme="white"
+    >
       <body>
         <a className="skipLink" href="#content">
           Skip to content
         </a>
-        <div className="siteShell">
-          <SiteHeader />
-          <main id="content" className="siteMain">
-            {children}
-          </main>
-          <SiteFooter />
-        </div>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var key=${JSON.stringify(THEME_STORAGE_KEY)};var theme=localStorage.getItem(key);if(theme==="white"||theme==="black"){document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme==="black"?"dark":"light";}}catch(error){}})();`,
+          }}
+        />
+        <ThemeProvider>
+          <div className="siteShell">
+            <SiteHeader />
+            <main id="content" className="siteMain">
+              {children}
+            </main>
+            <SiteFooter />
+          </div>
+          <FloatingContactActions />
+        </ThemeProvider>
       </body>
     </html>
   );

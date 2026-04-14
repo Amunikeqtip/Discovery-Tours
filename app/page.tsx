@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BrandLogo } from "@/components/common/brand-logo";
 import { ImageCard } from "@/components/common/image-card";
 import { IconOrb } from "@/components/common/icon-orb";
 import { SectionHeading } from "@/components/common/section-heading";
@@ -57,9 +56,6 @@ export default function HomePage() {
       <section className={`section ${styles.heroSection}`}>
         <div className={`container ${styles.heroGrid}`}>
           <div className={styles.heroCopy}>
-            <div className={styles.heroBrand}>
-              <BrandLogo />
-            </div>
             <p className="eyebrow">Tourism & Hospitality</p>
             <h1 className="pageTitle">
               A refined way to discover Victoria Falls with comfort built in.
