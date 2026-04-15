@@ -60,12 +60,12 @@ html[data-theme="black"] {
   --button-secondary-bg: rgba(255, 255, 255, 0.06);
   --button-secondary-border: rgba(143, 226, 255, 0.18);
   --button-secondary-fg: var(--foreground);
-  --contrast-panel-bg: linear-gradient(180deg, rgba(247, 251, 255, 0.96) 0%, rgba(236, 244, 252, 0.92) 100%);
-  --contrast-panel-fg: #06090d;
-  --contrast-panel-muted: rgba(6, 9, 13, 0.72);
-  --contrast-panel-line: rgba(6, 9, 13, 0.12);
-  --contrast-panel-subtle: rgba(6, 9, 13, 0.04);
-  --contrast-panel-subtle-hover: rgba(6, 9, 13, 0.08);
+  --contrast-panel-bg: linear-gradient(180deg, rgba(5, 8, 12, 0.98) 0%, rgba(12, 18, 26, 0.96) 100%);
+  --contrast-panel-fg: #f7fbff;
+  --contrast-panel-muted: rgba(247, 251, 255, 0.76);
+  --contrast-panel-line: rgba(143, 226, 255, 0.14);
+  --contrast-panel-subtle: rgba(255, 255, 255, 0.04);
+  --contrast-panel-subtle-hover: rgba(255, 255, 255, 0.07);
   --overlay-image-bg: linear-gradient(180deg, rgba(5, 8, 12, 0) 0%, rgba(5, 8, 12, 0.9) 100%);
   --overlay-image-fg: rgba(247, 251, 255, 0.92);
   --overlay-badge-bg: rgba(247, 251, 255, 0.92);
