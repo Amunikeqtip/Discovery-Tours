@@ -3,8 +3,14 @@
   padding: 1.75rem 0 1rem;
   position: relative;
   overflow: hidden;
-  background: var(--contrast-panel-bg);
-  color: var(--contrast-panel-fg);
+  --footer-panel-bg: linear-gradient(180deg, rgba(5, 8, 12, 0.96) 0%, rgba(10, 20, 31, 0.94) 100%);
+  --footer-panel-fg: #f7fbff;
+  --footer-panel-muted: rgba(247, 251, 255, 0.82);
+  --footer-panel-line: rgba(143, 226, 255, 0.12);
+  --footer-panel-subtle: rgba(255, 255, 255, 0.04);
+  --footer-panel-subtle-hover: rgba(255, 255, 255, 0.07);
+  background: var(--footer-panel-bg);
+  color: var(--footer-panel-fg);
 }
 
 .footer::before,
@@ -46,7 +52,7 @@
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   gap: 1.5rem;
   padding-bottom: 1.4rem;
-  border-bottom: 1px solid var(--contrast-panel-line);
+  border-bottom: 1px solid var(--footer-panel-line);
 }
 
 .brandPanel {
@@ -56,7 +62,7 @@
   p {
     max-width: 36rem;
     margin: 0;
-    color: var(--contrast-panel-muted);
+    color: var(--footer-panel-muted);
     line-height: 1.6;
     font-size: 0.96rem;
   }
@@ -73,9 +79,9 @@
     gap: 0.45rem;
     padding: 0.58rem 0.82rem;
     border-radius: 999px;
-    border: 1px solid var(--contrast-panel-line);
-    background: var(--contrast-panel-subtle);
-    color: var(--contrast-panel-fg);
+    border: 1px solid var(--footer-panel-line);
+    background: var(--footer-panel-subtle);
+    color: var(--footer-panel-fg);
     font-weight: 600;
     font-size: 0.92rem;
   }
@@ -136,7 +142,7 @@
 
   p {
     margin: 0;
-    color: var(--contrast-panel-muted);
+    color: var(--footer-panel-muted);
     line-height: 1.6;
     font-size: 0.96rem;
   }
@@ -150,7 +156,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    color: var(--contrast-panel-fg);
+    color: var(--footer-panel-fg);
     font-size: 0.96rem;
     transition: color 180ms ease, transform 180ms ease;
 
@@ -183,7 +189,7 @@
   p,
   span {
     margin: 0;
-    color: var(--contrast-panel-muted);
+    color: var(--footer-panel-muted);
     font-size: 0.9rem;
   }
 
@@ -197,12 +203,12 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.45rem;
-  color: var(--contrast-panel-muted);
+  color: var(--footer-panel-muted);
   font-size: 0.9rem;
 }
 
 .poweredSeparator {
-  color: var(--contrast-panel-muted);
+  color: var(--footer-panel-muted);
 }
 
 .personButton {
@@ -244,8 +250,8 @@
   overflow: auto;
   padding: 1.25rem;
   border-radius: var(--radius-lg);
-  border: 1px solid var(--contrast-panel-line);
-  background: var(--contrast-panel-bg);
+  border: 1px solid var(--footer-panel-line);
+  background: var(--footer-panel-bg);
   box-shadow: var(--shadow-strong);
 }
 
@@ -264,7 +270,7 @@
 
   p:last-child {
     margin: 0;
-    color: var(--contrast-panel-muted);
+    color: var(--footer-panel-muted);
     line-height: 1.65;
   }
 }
@@ -274,10 +280,10 @@
   align-items: center;
   gap: 0.55rem;
   padding: 0.72rem 0.92rem;
-  border: 1px solid var(--contrast-panel-line);
+  border: 1px solid var(--footer-panel-line);
   border-radius: 999px;
-  background: var(--contrast-panel-subtle);
-  color: var(--contrast-panel-fg);
+  background: var(--footer-panel-subtle);
+  color: var(--footer-panel-fg);
   font-weight: 700;
   transition:
     transform 180ms ease,
@@ -285,7 +291,7 @@
 
   &:hover {
     transform: translateY(-1px);
-    background: var(--contrast-panel-subtle-hover);
+    background: var(--footer-panel-subtle-hover);
   }
 }
 
@@ -300,9 +306,9 @@
   gap: 0.45rem;
   padding: 1rem;
   border-radius: var(--radius-md);
-  border: 1px solid var(--contrast-panel-line);
-  background: var(--contrast-panel-subtle);
-  color: var(--contrast-panel-fg);
+  border: 1px solid var(--footer-panel-line);
+  background: var(--footer-panel-subtle);
+  color: var(--footer-panel-fg);
   text-align: left;
   transition:
     transform 180ms ease,
@@ -313,7 +319,7 @@
     font-size: 0.8rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--contrast-panel-muted);
+    color: var(--footer-panel-muted);
   }
 
   strong {
@@ -326,11 +332,11 @@
 .modalCard:hover {
   transform: translateY(-2px);
   border-color: var(--accent-soft);
-  background: var(--contrast-panel-subtle-hover);
+  background: var(--footer-panel-subtle-hover);
 }
 
 .modalCardAccent {
-  background: var(--contrast-panel-subtle-hover);
+  background: var(--footer-panel-subtle-hover);
 }
 
 .modalIcon {
